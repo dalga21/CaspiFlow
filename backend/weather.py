@@ -15,6 +15,8 @@ POINTS=[
  {'id':'east-south','name':'Подход к Амирабаду','lat':37.8,'lon':53.0,'section':'east'},
  {'id':'west-land','name':'Сухопутный узел Баку','lat':40.37,'lon':49.85,'section':'west'},
 ]
+MAX_MARINE_CELL_DISTANCE_KM=25.0
+
 SOURCES={'wind':'https://api.open-meteo.com/v1/forecast','wave':'https://marine-api.open-meteo.com/v1/marine'}
 
 def utcnow():return datetime.now(timezone.utc)
@@ -47,12 +49,22 @@ class ProviderResponseError(ValueError):
     def __init__(self,message,status):
         super().__init__(message);self.http_status=status
 
+def grid_distance_km(lat1,lon1,lat2,lon2):
+    coordinates=(lat1,lon1,lat2,lon2)
+    if any(not isinstance(v,(int,float)) or isinstance(v,bool) or not math.isfinite(v) for v in coordinates):
+        raise ValueError('Не указаны корректные координаты ячейки модели')
+    if not(-90<=lat1<=90 and -90<=lat2<=90 and -180<=lon1<=180 and -180<=lon2<=180):
+        raise ValueError('Координаты ячейки модели вне допустимого диапазона')
+    a1,a2=math.radians(lat1),math.radians(lat2)
+    h=math.sin((a2-a1)/2)**2+math.cos(a1)*math.cos(a2)*math.sin(math.radians(lon2-lon1)/2)**2
+    return 6371*2*math.asin(math.sqrt(min(1,max(0,h))))
+
 def fetch_provider(kind):
     points=POINTS if kind=='wind' else POINTS[:6]
     variable='wind_speed_10m' if kind=='wind' else 'wave_height'
     expected_unit='m/s' if kind=='wind' else 'm'
     params={'latitude':','.join(str(p['lat']) for p in points),'longitude':','.join(str(p['lon']) for p in points),
-            'hourly':variable,'forecast_hours':72,'timezone':'UTC','cell_selection':'nearest','timeformat':'unixtime'}
+            'hourly':variable,'forecast_hours':72,'timezone':'UTC','cell_selection':'sea' if kind=='wave' else 'nearest','timeformat':'unixtime'}
     if kind=='wind':params['wind_speed_unit']='ms'
     response=httpx.get(SOURCES[kind],params=params,timeout=httpx.Timeout(10,connect=4),follow_redirects=False)
     response.raise_for_status()
@@ -75,13 +87,20 @@ def fetch_provider(kind):
     for i,point in enumerate(points):
         part=assigned.get(i)
         diagnostic={'http_status':response.status_code,'field':variable,'expected_unit':expected_unit,
-                    'fetched_at':fetched,'requested_coordinates':{'latitude':point['lat'],'longitude':point['lon']}}
+                    'fetched_at':fetched,'cell_selection':params['cell_selection'],'requested_coordinates':{'latitude':point['lat'],'longitude':point['lon']}}
         result[point['id']]={}
         try:
             if part is None:raise ValueError('В пакетном ответе отсутствует эта точка')
             diagnostic['grid_coordinates']={'latitude':part.get('latitude'),'longitude':part.get('longitude')}
             units=part.get('hourly_units');unit=units.get(variable) if isinstance(units,dict) else None;diagnostic['unit']=unit
             if unit!=expected_unit:raise ValueError('Несоответствие единиц (units): ожидались '+expected_unit)
+            if kind=='wave':
+                distance=grid_distance_km(point['lat'],point['lon'],part.get('latitude'),part.get('longitude'))
+                diagnostic['grid_distance_km']=round(distance,2)
+                diagnostic['max_grid_distance_km']=MAX_MARINE_CELL_DISTANCE_KM
+                if distance>MAX_MARINE_CELL_DISTANCE_KM:
+                    raise ValueError(f'Морская ячейка удалена на {distance:.1f} км — больше допустимых {MAX_MARINE_CELL_DISTANCE_KM:g} км; её данные не используются')
+                diagnostic['spatial_note']=f"Прогноз морской ячейки {part.get('latitude')}, {part.get('longitude')} — {distance:.1f} км от точки маршрута. Это пространственное приближение, не измерение в точке груза."
             hourly=part.get('hourly')
             if not isinstance(hourly,dict):raise ValueError('Нет объекта hourly для этой точки')
             times=hourly.get('time');values=hourly.get(variable)

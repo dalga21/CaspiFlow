@@ -1,7 +1,7 @@
 {
   "desktop": {
-    "fetched_at": "2026-11-12T17:06:08.468518+00:00",
-    "starts_at": "2026-11-12T17:00:00+00:00",
+    "fetched_at": "2026-11-12T20:31:49.460705+00:00",
+    "starts_at": "2026-11-12T20:00:00+00:00",
     "errors": [],
     "points": {
       "direct-north": {
@@ -14,7 +14,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 44.1,
               "longitude": 48.4
@@ -26,8 +27,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -37,7 +38,8 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 44.1,
               "longitude": 48.4
@@ -47,10 +49,13 @@
               "longitude": 48.375015
             },
             "unit": "m",
+            "grid_distance_km": 3.42,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 44.125, 48.375015 — 3.4 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -68,7 +73,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 41.9,
               "longitude": 48.8
@@ -80,8 +86,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -91,7 +97,8 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 41.9,
               "longitude": 48.8
@@ -101,10 +108,13 @@
               "longitude": 48.79167
             },
             "unit": "m",
+            "grid_distance_km": 2.86,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 41.875, 48.79167 — 2.9 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -115,14 +125,15 @@
       "direct-south": {
         "name": "Южный Каспий",
         "wind": 72,
-        "wave": 0,
-        "risk": 0,
+        "wave": 72,
+        "risk": 72,
         "availability": {
           "wind": {
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 39.7,
               "longitude": 49.2
@@ -134,8 +145,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -145,23 +156,27 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 39.7,
               "longitude": 49.2
             },
             "grid_coordinates": {
-              "latitude": 39.708336,
-              "longitude": 49.208344
+              "latitude": 39.625,
+              "longitude": 49.375015
             },
             "unit": "m",
+            "grid_distance_km": 17.15,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 39.625, 49.375015 — 17.1 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
-            "valid_response_hours": 0,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
-            "status": "no_coverage",
-            "reason": "Open-Meteo не вернул числовых значений для этой точки и периода (null или отсутствующее поле); покрытие не подтверждено",
-            "available_hours": 0,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
             "requested_hours": 72
           }
         }
@@ -176,7 +191,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 42.5,
               "longitude": 51.5
@@ -188,8 +204,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -199,7 +215,8 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 42.5,
               "longitude": 51.5
@@ -209,10 +226,13 @@
               "longitude": 51.458344
             },
             "unit": "m",
+            "grid_distance_km": 5.75,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 42.541664, 51.458344 — 5.8 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -230,7 +250,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 40.2,
               "longitude": 52.2
@@ -242,8 +263,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -253,7 +274,8 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 40.2,
               "longitude": 52.2
@@ -263,10 +285,13 @@
               "longitude": 52.208344
             },
             "unit": "m",
+            "grid_distance_km": 1.17,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 40.208336, 52.208344 — 1.2 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -284,7 +309,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 37.8,
               "longitude": 53
@@ -296,8 +322,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -307,7 +333,8 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 37.8,
               "longitude": 53
@@ -317,10 +344,13 @@
               "longitude": 52.958344
             },
             "unit": "m",
+            "grid_distance_km": 3.78,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 37.791664, 52.958344 — 3.8 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -338,7 +368,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 40.37,
               "longitude": 49.85
@@ -350,8 +381,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -368,8 +399,8 @@
     }
   },
   "mobile": {
-    "fetched_at": "2026-11-12T17:06:08.468518+00:00",
-    "starts_at": "2026-11-12T17:00:00+00:00",
+    "fetched_at": "2026-11-12T20:31:49.460705+00:00",
+    "starts_at": "2026-11-12T20:00:00+00:00",
     "errors": [],
     "points": {
       "direct-north": {
@@ -382,7 +413,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 44.1,
               "longitude": 48.4
@@ -394,8 +426,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -405,7 +437,8 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 44.1,
               "longitude": 48.4
@@ -415,10 +448,13 @@
               "longitude": 48.375015
             },
             "unit": "m",
+            "grid_distance_km": 3.42,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 44.125, 48.375015 — 3.4 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -436,7 +472,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 41.9,
               "longitude": 48.8
@@ -448,8 +485,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -459,7 +496,8 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 41.9,
               "longitude": 48.8
@@ -469,10 +507,13 @@
               "longitude": 48.79167
             },
             "unit": "m",
+            "grid_distance_km": 2.86,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 41.875, 48.79167 — 2.9 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -483,14 +524,15 @@
       "direct-south": {
         "name": "Южный Каспий",
         "wind": 72,
-        "wave": 0,
-        "risk": 0,
+        "wave": 72,
+        "risk": 72,
         "availability": {
           "wind": {
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 39.7,
               "longitude": 49.2
@@ -502,8 +544,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -513,23 +555,27 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 39.7,
               "longitude": 49.2
             },
             "grid_coordinates": {
-              "latitude": 39.708336,
-              "longitude": 49.208344
+              "latitude": 39.625,
+              "longitude": 49.375015
             },
             "unit": "m",
+            "grid_distance_km": 17.15,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 39.625, 49.375015 — 17.1 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
-            "valid_response_hours": 0,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
-            "status": "no_coverage",
-            "reason": "Open-Meteo не вернул числовых значений для этой точки и периода (null или отсутствующее поле); покрытие не подтверждено",
-            "available_hours": 0,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
             "requested_hours": 72
           }
         }
@@ -544,7 +590,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 42.5,
               "longitude": 51.5
@@ -556,8 +603,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -567,7 +614,8 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 42.5,
               "longitude": 51.5
@@ -577,10 +625,13 @@
               "longitude": 51.458344
             },
             "unit": "m",
+            "grid_distance_km": 5.75,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 42.541664, 51.458344 — 5.8 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -598,7 +649,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 40.2,
               "longitude": 52.2
@@ -610,8 +662,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -621,7 +673,8 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 40.2,
               "longitude": 52.2
@@ -631,10 +684,13 @@
               "longitude": 52.208344
             },
             "unit": "m",
+            "grid_distance_km": 1.17,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 40.208336, 52.208344 — 1.2 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -652,7 +708,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 37.8,
               "longitude": 53
@@ -664,8 +721,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -675,7 +732,8 @@
             "http_status": 200,
             "field": "wave_height",
             "expected_unit": "m",
-            "fetched_at": "2026-11-12T17:06:07.860065+00:00",
+            "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+            "cell_selection": "sea",
             "requested_coordinates": {
               "latitude": 37.8,
               "longitude": 53
@@ -685,10 +743,13 @@
               "longitude": 52.958344
             },
             "unit": "m",
+            "grid_distance_km": 3.78,
+            "max_grid_distance_km": 25,
+            "spatial_note": "Прогноз морской ячейки 37.791664, 52.958344 — 3.8 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,
@@ -706,7 +767,8 @@
             "http_status": 200,
             "field": "wind_speed_10m",
             "expected_unit": "m/s",
-            "fetched_at": "2026-11-12T17:06:08.467798+00:00",
+            "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+            "cell_selection": "nearest",
             "requested_coordinates": {
               "latitude": 40.37,
               "longitude": 49.85
@@ -718,8 +780,8 @@
             "unit": "m/s",
             "response_hours": 72,
             "valid_response_hours": 72,
-            "provider_start": "2026-11-12T17:00:00+00:00",
-            "provider_end": "2026-11-15T16:00:00+00:00",
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
             "status": "available",
             "reason": "Доступны все 72 почасовых значения",
             "available_hours": 72,

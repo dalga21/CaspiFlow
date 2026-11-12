@@ -1,0 +1,670 @@
+{
+  "selection_comparison": [
+    {
+      "selection": "nearest",
+      "status": 200,
+      "requested": {
+        "lat": 39.7,
+        "lon": 49.2
+      },
+      "latitude": 39.708336,
+      "longitude": 49.208344,
+      "valid_hours": 0,
+      "values": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "reason": null,
+      "url": "https://marine-api.open-meteo.com/v1/marine?latitude=39.7&longitude=49.2&hourly=wave_height&forecast_hours=72&timezone=UTC&timeformat=unixtime&cell_selection=nearest"
+    },
+    {
+      "selection": "sea",
+      "status": 200,
+      "requested": {
+        "lat": 39.7,
+        "lon": 49.2
+      },
+      "latitude": 39.625,
+      "longitude": 49.375015,
+      "valid_hours": 72,
+      "values": [
+        0.28,
+        0.28,
+        0.28,
+        0.26,
+        0.26
+      ],
+      "reason": null,
+      "url": "https://marine-api.open-meteo.com/v1/marine?latitude=39.7&longitude=49.2&hourly=wave_height&forecast_hours=72&timezone=UTC&timeformat=unixtime&cell_selection=sea"
+    }
+  ],
+  "fetched_at": "2026-11-12T20:31:49.460705+00:00",
+  "points": [
+    {
+      "id": "direct-north",
+      "availability": {
+        "wind": {
+          "http_status": 200,
+          "field": "wind_speed_10m",
+          "expected_unit": "m/s",
+          "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+          "cell_selection": "nearest",
+          "requested_coordinates": {
+            "latitude": 44.1,
+            "longitude": 48.4
+          },
+          "grid_coordinates": {
+            "latitude": 44.12547,
+            "longitude": 48.39222
+          },
+          "unit": "m/s",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        },
+        "wave": {
+          "http_status": 200,
+          "field": "wave_height",
+          "expected_unit": "m",
+          "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+          "cell_selection": "sea",
+          "requested_coordinates": {
+            "latitude": 44.1,
+            "longitude": 48.4
+          },
+          "grid_coordinates": {
+            "latitude": 44.125,
+            "longitude": 48.375015
+          },
+          "unit": "m",
+          "grid_distance_km": 3.42,
+          "max_grid_distance_km": 25.0,
+          "spatial_note": "Прогноз морской ячейки 44.125, 48.375015 — 3.4 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        }
+      }
+    },
+    {
+      "id": "direct-mid",
+      "availability": {
+        "wind": {
+          "http_status": 200,
+          "field": "wind_speed_10m",
+          "expected_unit": "m/s",
+          "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+          "cell_selection": "nearest",
+          "requested_coordinates": {
+            "latitude": 41.9,
+            "longitude": 48.8
+          },
+          "grid_coordinates": {
+            "latitude": 41.908363,
+            "longitude": 48.758766
+          },
+          "unit": "m/s",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        },
+        "wave": {
+          "http_status": 200,
+          "field": "wave_height",
+          "expected_unit": "m",
+          "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+          "cell_selection": "sea",
+          "requested_coordinates": {
+            "latitude": 41.9,
+            "longitude": 48.8
+          },
+          "grid_coordinates": {
+            "latitude": 41.875,
+            "longitude": 48.79167
+          },
+          "unit": "m",
+          "grid_distance_km": 2.86,
+          "max_grid_distance_km": 25.0,
+          "spatial_note": "Прогноз морской ячейки 41.875, 48.79167 — 2.9 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        }
+      }
+    },
+    {
+      "id": "direct-south",
+      "availability": {
+        "wind": {
+          "http_status": 200,
+          "field": "wind_speed_10m",
+          "expected_unit": "m/s",
+          "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+          "cell_selection": "nearest",
+          "requested_coordinates": {
+            "latitude": 39.7,
+            "longitude": 49.2
+          },
+          "grid_coordinates": {
+            "latitude": 39.69819,
+            "longitude": 49.193756
+          },
+          "unit": "m/s",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        },
+        "wave": {
+          "http_status": 200,
+          "field": "wave_height",
+          "expected_unit": "m",
+          "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+          "cell_selection": "sea",
+          "requested_coordinates": {
+            "latitude": 39.7,
+            "longitude": 49.2
+          },
+          "grid_coordinates": {
+            "latitude": 39.625,
+            "longitude": 49.375015
+          },
+          "unit": "m",
+          "grid_distance_km": 17.15,
+          "max_grid_distance_km": 25.0,
+          "spatial_note": "Прогноз морской ячейки 39.625, 49.375015 — 17.1 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        }
+      }
+    },
+    {
+      "id": "east-north",
+      "availability": {
+        "wind": {
+          "http_status": 200,
+          "field": "wind_speed_10m",
+          "expected_unit": "m/s",
+          "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+          "cell_selection": "nearest",
+          "requested_coordinates": {
+            "latitude": 42.5,
+            "longitude": 51.5
+          },
+          "grid_coordinates": {
+            "latitude": 42.507713,
+            "longitude": 51.489674
+          },
+          "unit": "m/s",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        },
+        "wave": {
+          "http_status": 200,
+          "field": "wave_height",
+          "expected_unit": "m",
+          "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+          "cell_selection": "sea",
+          "requested_coordinates": {
+            "latitude": 42.5,
+            "longitude": 51.5
+          },
+          "grid_coordinates": {
+            "latitude": 42.541664,
+            "longitude": 51.458344
+          },
+          "unit": "m",
+          "grid_distance_km": 5.75,
+          "max_grid_distance_km": 25.0,
+          "spatial_note": "Прогноз морской ячейки 42.541664, 51.458344 — 5.8 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        }
+      }
+    },
+    {
+      "id": "east-mid",
+      "availability": {
+        "wind": {
+          "http_status": 200,
+          "field": "wind_speed_10m",
+          "expected_unit": "m/s",
+          "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+          "cell_selection": "nearest",
+          "requested_coordinates": {
+            "latitude": 40.2,
+            "longitude": 52.2
+          },
+          "grid_coordinates": {
+            "latitude": 40.222153,
+            "longitude": 52.19229
+          },
+          "unit": "m/s",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        },
+        "wave": {
+          "http_status": 200,
+          "field": "wave_height",
+          "expected_unit": "m",
+          "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+          "cell_selection": "sea",
+          "requested_coordinates": {
+            "latitude": 40.2,
+            "longitude": 52.2
+          },
+          "grid_coordinates": {
+            "latitude": 40.208336,
+            "longitude": 52.208344
+          },
+          "unit": "m",
+          "grid_distance_km": 1.17,
+          "max_grid_distance_km": 25.0,
+          "spatial_note": "Прогноз морской ячейки 40.208336, 52.208344 — 1.2 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        }
+      }
+    },
+    {
+      "id": "east-south",
+      "availability": {
+        "wind": {
+          "http_status": 200,
+          "field": "wind_speed_10m",
+          "expected_unit": "m/s",
+          "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+          "cell_selection": "nearest",
+          "requested_coordinates": {
+            "latitude": 37.8,
+            "longitude": 53.0
+          },
+          "grid_coordinates": {
+            "latitude": 37.799835,
+            "longitude": 53.01196
+          },
+          "unit": "m/s",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        },
+        "wave": {
+          "http_status": 200,
+          "field": "wave_height",
+          "expected_unit": "m",
+          "fetched_at": "2026-11-12T20:31:49.458719+00:00",
+          "cell_selection": "sea",
+          "requested_coordinates": {
+            "latitude": 37.8,
+            "longitude": 53.0
+          },
+          "grid_coordinates": {
+            "latitude": 37.791664,
+            "longitude": 52.958344
+          },
+          "unit": "m",
+          "grid_distance_km": 3.78,
+          "max_grid_distance_km": 25.0,
+          "spatial_note": "Прогноз морской ячейки 37.791664, 52.958344 — 3.8 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        }
+      }
+    },
+    {
+      "id": "west-land",
+      "availability": {
+        "wind": {
+          "http_status": 200,
+          "field": "wind_speed_10m",
+          "expected_unit": "m/s",
+          "fetched_at": "2026-11-12T20:31:49.414839+00:00",
+          "cell_selection": "nearest",
+          "requested_coordinates": {
+            "latitude": 40.37,
+            "longitude": 49.85
+          },
+          "grid_coordinates": {
+            "latitude": 40.414165,
+            "longitude": 49.82638
+          },
+          "unit": "m/s",
+          "response_hours": 72,
+          "valid_response_hours": 72,
+          "provider_start": "2026-11-12T20:00:00+00:00",
+          "provider_end": "2026-11-15T19:00:00+00:00",
+          "status": "available",
+          "reason": "Доступны все 72 почасовых значения",
+          "available_hours": 72,
+          "requested_hours": 72
+        },
+        "wave": {
+          "status": "not_applicable",
+          "reason": "Сухопутная точка: морские волны не запрашиваются и не подставляются",
+          "available_hours": 0,
+          "requested_hours": 72
+        }
+      }
+    }
+  ],
+  "routes": [
+    {
+      "id": "direct",
+      "name": "Прямой каспийский",
+      "ports": [
+        "astrakhan",
+        "anzali"
+      ],
+      "segments": [
+        {
+          "mode": "rail",
+          "km": 280
+        },
+        {
+          "mode": "sea",
+          "km": 1060
+        },
+        {
+          "mode": "road",
+          "km": 45
+        }
+      ],
+      "hours": 58,
+      "transfers": 2,
+      "load": 72,
+      "history": 8,
+      "exposure": 1,
+      "co2_kg": 668,
+      "delay_hours": 19.9,
+      "total_hours": 77.9,
+      "eta_at": "2026-11-16T01:54:00+00:00",
+      "prediction": {
+        "source": "RandomForestRegressor.predict",
+        "model_version": "dd6d5aa09398",
+        "inputs": {
+          "wind_m_s": 6.88,
+          "wave_m": 1.32,
+          "port_load_percent": 72,
+          "historical_delay_hours": 8,
+          "distance_km": 1385,
+          "transfers": 2
+        },
+        "outside_training_range": []
+      },
+      "passage": {
+        "samples": [
+          {
+            "point_id": "direct-north",
+            "name": "Северный Каспий",
+            "passage_at": "2026-11-13T15:07:26.209386+00:00",
+            "wind": 0.6,
+            "wave": 1.28,
+            "wave_applicability": "marine forecast"
+          },
+          {
+            "point_id": "direct-mid",
+            "name": "Средний Каспий",
+            "passage_at": "2026-11-14T05:55:14.079422+00:00",
+            "wind": 0.98,
+            "wave": 0.64,
+            "wave_applicability": "marine forecast"
+          },
+          {
+            "point_id": "direct-south",
+            "name": "Южный Каспий",
+            "passage_at": "2026-11-14T20:43:01.949458+00:00",
+            "wind": 1.34,
+            "wave": 0.14,
+            "wave_applicability": "marine forecast"
+          }
+        ],
+        "complete": true,
+        "alerts": [],
+        "window_start": "2026-11-13T07:43:32.274368+00:00",
+        "window_end": "2026-11-15T04:06:55.884477+00:00",
+        "wind": 6.88,
+        "wave": 1.32,
+        "timing_assumption": "Новый план отправления в текущий час UTC; часы сегментов пропорциональны км. Окна до ML-задержки, без расписаний и обратного пересчёта."
+      },
+      "economics": {
+        "currency": "USD",
+        "tariffs_demonstration": true,
+        "transport_usd": 1008.08,
+        "delay_cost_usd": 2985.0,
+        "total_cost_usd": 3993.08,
+        "additional_transport_usd": 0.0,
+        "potential_savings_usd": 0.0
+      }
+    },
+    {
+      "id": "west",
+      "name": "Западный сухопутный",
+      "ports": [
+        "astrakhan",
+        "makhachkala",
+        "baku",
+        "anzali"
+      ],
+      "segments": [
+        {
+          "mode": "rail",
+          "km": 690
+        },
+        {
+          "mode": "road",
+          "km": 940
+        }
+      ],
+      "hours": 72,
+      "transfers": 3,
+      "load": 81,
+      "history": 11,
+      "exposure": 0.08,
+      "co2_kg": 2358,
+      "delay_hours": 21.3,
+      "total_hours": 93.3,
+      "eta_at": "2026-11-16T17:18:00+00:00",
+      "prediction": {
+        "source": "RandomForestRegressor.predict",
+        "model_version": "dd6d5aa09398",
+        "inputs": {
+          "wind_m_s": 11.93,
+          "wave_m": 0,
+          "port_load_percent": 81,
+          "historical_delay_hours": 11,
+          "distance_km": 1630,
+          "transfers": 3
+        },
+        "outside_training_range": [
+          "wave_m"
+        ]
+      },
+      "passage": {
+        "samples": [
+          {
+            "point_id": "west-land",
+            "name": "Сухопутный узел Баку",
+            "passage_at": "2026-11-14T08:00:00+00:00",
+            "wind": 2.02,
+            "wave": 0,
+            "wave_applicability": "no sea segment; zero is not a sea observation"
+          }
+        ],
+        "complete": true,
+        "alerts": [],
+        "window_start": "2026-11-12T20:00:00+00:00",
+        "window_end": "2026-11-15T20:00:00+00:00",
+        "wind": 11.93,
+        "wave": 0,
+        "timing_assumption": "Новый план отправления в текущий час UTC; часы сегментов пропорциональны км. Окна до ML-задержки, без расписаний и обратного пересчёта."
+      },
+      "economics": {
+        "currency": "USD",
+        "tariffs_demonstration": true,
+        "transport_usd": 2688.88,
+        "delay_cost_usd": 3195.0,
+        "total_cost_usd": 5883.88,
+        "additional_transport_usd": 1680.8,
+        "potential_savings_usd": -1890.8
+      }
+    },
+    {
+      "id": "east",
+      "name": "Через Актау и Амирабад",
+      "ports": [
+        "astrakhan",
+        "aktau",
+        "amirabad",
+        "anzali"
+      ],
+      "segments": [
+        {
+          "mode": "rail",
+          "km": 720
+        },
+        {
+          "mode": "sea",
+          "km": 900
+        },
+        {
+          "mode": "road",
+          "km": 310
+        }
+      ],
+      "hours": 83,
+      "transfers": 3,
+      "load": 64,
+      "history": 7,
+      "exposure": 0.7,
+      "co2_kg": 1403,
+      "delay_hours": 17.3,
+      "total_hours": 100.3,
+      "eta_at": "2026-11-17T00:18:00+00:00",
+      "prediction": {
+        "source": "RandomForestRegressor.predict",
+        "model_version": "dd6d5aa09398",
+        "inputs": {
+          "wind_m_s": 8.92,
+          "wave_m": 1.46,
+          "port_load_percent": 64,
+          "historical_delay_hours": 7,
+          "distance_km": 1930,
+          "transfers": 3
+        },
+        "outside_training_range": []
+      },
+      "passage": {
+        "samples": [
+          {
+            "point_id": "east-north",
+            "name": "Южнее Актау",
+            "passage_at": "2026-11-14T09:24:52.227979+00:00",
+            "wind": 8.03,
+            "wave": 1.12,
+            "wave_applicability": "marine forecast"
+          },
+          {
+            "point_id": "east-mid",
+            "name": "Восточный Каспий",
+            "passage_at": "2026-11-14T22:18:57.823834+00:00",
+            "wind": 6.64,
+            "wave": 0.5,
+            "wave_applicability": "marine forecast"
+          },
+          {
+            "point_id": "east-south",
+            "name": "Подход к Амирабаду",
+            "passage_at": "2026-11-15T11:13:03.419689+00:00",
+            "wind": 3.62,
+            "wave": 0.22,
+            "wave_applicability": "marine forecast"
+          }
+        ],
+        "complete": true,
+        "alerts": [],
+        "window_start": "2026-11-14T02:57:49.430052+00:00",
+        "window_end": "2026-11-15T17:40:06.217617+00:00",
+        "wind": 8.92,
+        "wave": 1.46,
+        "timing_assumption": "Новый план отправления в текущий час UTC; часы сегментов пропорциональны км. Окна до ML-задержки, без расписаний и обратного пересчёта."
+      },
+      "economics": {
+        "currency": "USD",
+        "tariffs_demonstration": true,
+        "transport_usd": 1911.4,
+        "delay_cost_usd": 2595.0,
+        "total_cost_usd": 4506.4,
+        "additional_transport_usd": 903.32,
+        "potential_savings_usd": -513.32
+      }
+    }
+  ]
+}

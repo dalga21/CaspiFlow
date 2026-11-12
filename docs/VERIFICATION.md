@@ -8,8 +8,8 @@
 |---|---|
 | Production build Next.js | PASS, статическая `/` и динамический `/api/[...path]` |
 | TypeScript `tsc --noEmit` | PASS |
-| Backend pytest | 31 passed, 13.67 s |
-| Playwright production | 44 passed, 1.3 min |
+| Backend pytest | 35 passed, 13.87 s |
+| Playwright production | 46 passed, 1.3 min |
 | Проверка shell-скриптов `bash -n` | PASS |
 | `git diff --check` | PASS |
 | Живой `/api/model` против docs/ml_metrics.json | Полное равенство JSON, версия dd6d5aa09398 |
@@ -20,7 +20,7 @@ Backend выдаёт одно предупреждение Starlette о буду
 
 ## Браузерные сценарии
 
-Каждый из 22 сценариев выполнен на desktop 1440×1000 и mobile 390×664 с touch-эмуляцией:
+Каждый из 23 сценариев выполнен на desktop 1440×1000 и mobile 390×664 с touch-эмуляцией:
 
 1. Пять разделов навигации, четыре груза, поиск по номеру/названию/отправителю и пустой результат.
 2. Все 12 сочетаний груз/путь: UI/API задержка, время, независимая арифметика CO₂ и общий CO₂.
@@ -78,7 +78,7 @@ npm --prefix frontend run typecheck
 backend/.venv/bin/python scripts/ml_audit.py
 ```
 
-HTML-отчёт `.runtime/playwright-report/index.html`; traces ошибок — `.runtime/playwright-results/`. Живой Open-Meteo probe — `weather_probe.json`: ветер доступен 72 часа в семи точках; волны отсутствуют в одной из шести морских. Полный прогноз этого маршрута корректно не вычисляется. Пароли/ключи/хеши проверяются на отсутствие в отслеживаемых файлах и клиентских bundle.
+HTML-отчёт `.runtime/playwright-report/index.html`; traces ошибок — `.runtime/playwright-results/`. Исторический probe `weather_probe.json` сделан с `nearest` и содержит пропуск южных волн. Актуальная проверка с `sea` — [marine_cell_probe.json](marine_cell_probe.json): 72 часа ветра в семи точках и волн во всех шести морских; прямой маршрут вновь рассчитывается моделью. Пароли/ключи/хеши проверяются на отсутствие в отслеживаемых файлах и клиентских bundle.
 
 Методика ML и реальные ограничения — [ML_REPORT.md](ML_REPORT.md), итоговая готовность — [FINAL_REPORT.md](FINAL_REPORT.md).
 
@@ -87,6 +87,10 @@ HTML-отчёт `.runtime/playwright-report/index.html`; traces ошибок —
 
 Подробная диагностика и границы вывода — [WEATHER_GRAPH_FIX.md](WEATHER_GRAPH_FIX.md). Исходные прямые запросы вернули HTTP 200 и 72 числовых значения ветра/волн для Северного Каспия. Исторический upstream-ответ пользовательского сбоя не сохранился; конкретный прежний статус не выдумывается. Регрессиями подтверждён и устранён дефект полного сброса пакетного источника из-за одной повреждённой точки, добавлен явный повтор внешнего запроса и диагностика.
 
-Новые backend-тесты проверяют повреждённые/null-объекты отдельной точки, перестановку и укорочение пакета, массивы разной длины, Unix/ISO UTC, переход часа, HTTP 429, тайм-аут Marine при исправном ветре и восстановление без ожидания кэша. Все прежние проверки ML, ручной симуляции, таможни и администратора входят в результат 31/31 и 44/44.
+Новые backend-тесты проверяют повреждённые/null-объекты отдельной точки, перестановку и укорочение пакета, массивы разной длины, Unix/ISO UTC, переход часа, HTTP 429, тайм-аут Marine при исправном ветре и восстановление без ожидания кэша. Все прежние проверки ML, ручной симуляции, таможни и администратора входят в результат 35/35 и 46/46.
 
 [Реальный HTTP probe](weather_http_diagnostics.json), [проверка всех графиков](weather_chart_probe.json), [Северный Каспий](screenshots/weather-fixed-direct-north-mobile.png), [частичные данные южной точки](screenshots/weather-fixed-direct-south-mobile.png).
+
+## Морская ячейка прямого маршрута
+
+Исправлен выбор `nearest` → `sea` только для Marine, добавлено ограничение удаления 25 км и видимая маркировка выбранной ячейки. Четыре новые backend-регрессии и 23-й сценарий Playwright (desktop/mobile) проходят. Подробная причина и ответы HTTP — [MARINE_CELL_FIX.md](MARINE_CELL_FIX.md). Исторические изображения с пропуском южных волн сохранены; актуальные — [desktop](screenshots/marine-sea-direct-south-desktop.png) и [mobile](screenshots/marine-sea-direct-south-mobile.png).

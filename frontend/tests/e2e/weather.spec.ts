@@ -91,3 +91,24 @@ test('missing hours make line gaps rather than removing healthy weather data',as
  await expect(page.locator('.weather-charts>.hourly-chart').nth(1).getByRole('img')).toBeVisible();
  await expect(page.locator('.point-data-status')).toContainText('Недостаточно данных');
 });
+
+test('marine sea cell restores direct route forecast and discloses spatial approximation',async({page})=>{
+ const data=await openForecast(page);
+ const south=data.weather.points.find(p=>p.id==='direct-south')!;
+ expect(south.availability?.wave.cell_selection).toBe('sea');
+ expect(south.availability?.wave.grid_distance_km).toBeLessThanOrEqual(25);
+ expect(south.hourly.filter(h=>h.wave!==null).length,'Live south marine coverage').toBeGreaterThan(0);
+ await page.getByRole('combobox',{name:'Точка прогноза'}).selectOption(south.id);
+ await expect(page.locator('.point-data-status')).toContainText('пространственное приближение');
+ await expect(page.locator('.weather-charts>.hourly-chart').nth(1).getByRole('img')).toBeVisible();
+ await expect(page.locator('.weather-charts>.hourly-chart').nth(2).getByRole('img')).toBeVisible();
+ for(const shipment of data.shipments){
+  const route=shipment.alternatives.find(r=>r.id==='direct')!;
+  expect(route.passage.complete).toBe(true);
+  expect(route.delay_hours).not.toBeNull();
+  expect(route.eta_at).not.toBeNull();
+  expect(route.economics.total_cost_usd).not.toBeNull();
+  expect(route.prediction.source).toBe('RandomForestRegressor.predict');
+ }
+ await page.locator('.live-weather').screenshot({path:`../docs/screenshots/marine-sea-direct-south-${test.info().project.name}.png`,scale:'css'});
+});

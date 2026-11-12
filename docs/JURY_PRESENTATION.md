@@ -79,7 +79,7 @@ CF-2026-0841, 24.8 т, нагрузка из маршрута. При шторм
 
 Next.js / FastAPI / SQLite / scikit-learn / Leaflet / Playwright. Десктоп и мобильная эмуляция Chromium. Проверяем выбор всех грузов и путей, CO₂, шторм, ETA, карту, объяснения, таможню, сбои API и fallback подложки.
 
-Финальные проверки: 44/44 Chromium, 31/31 backend, production build и TypeScript — PASS. Результаты запусков и команды — в FINAL_REPORT; скриншоты и JSON метрик доступны в репозитории. Build и TypeScript входят в обязательную проверку.
+Финальные проверки: 46/46 Chromium, 35/35 backend, production build и TypeScript — PASS. Результаты запусков и команды — в FINAL_REPORT; скриншоты и JSON метрик доступны в репозитории. Build и TypeScript входят в обязательную проверку.
 
 Визуал: десктоп и мобильный скриншот рядом. Не представлять мобильную эмуляцию за проверку Safari на физическом iPhone.
 
