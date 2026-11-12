@@ -52,10 +52,11 @@ test('route predictions and CO₂ agree with API for every cargo and route', asy
   }
   const sum = data.shipments.reduce((total: number, s: {route: {co2_kg: number}})=>total+s.route.co2_kg,0);
   await expect(page.locator('.metric').nth(2)).toContainText(format(sum/1000));
-  await expect(page.locator('#analytics')).toContainText('MAE 2.03 ч');
+  await expect(page.locator('#analytics')).toContainText('Почему ИИ дал такой прогноз?');
 });
 
-test('storm button, slider, recommendation change, and reset', async ({page}) => {
+test('storm button, slider, recommendation change, and reset', async ({page, request}) => {
+  const base = (await (await request.get('/api/dashboard')).json()).shipments[0].route.delay_hours;
   const setStorm = async (value: number, action: ()=>Promise<unknown>) => {
     const response = page.waitForResponse(r=>r.url().endsWith(`/api/dashboard?storm=${value}`) && r.status()===200);
     await action();
@@ -63,14 +64,17 @@ test('storm button, slider, recommendation change, and reset', async ({page}) =>
   };
   await setStorm(80,()=>page.getByRole('button',{name:'Симулировать шторм'}).click());
   await expect(page.locator('.weather-visual')).toContainText('Сильный шторм');
-  await expect(page.locator('.detail-metrics strong').first()).not.toContainText('14.9');
+  await expect(page.locator('.detail-metrics strong').first()).not.toContainText(String(base));
   const data = await setStorm(100,()=>page.getByRole('slider',{name:'Интенсивность шторма'}).fill('100'));
   await expect(page.locator('.detail-metrics strong').first()).toContainText(String(data.route.delay_hours));
   await expect(page.locator('.route-card').filter({hasText:'Западный сухопутный'})).toContainText('Самый быстрый в сценарии');
   await expect(page.locator('.leaflet-overlay-pane path[stroke="#ec8d35"]')).toHaveCount(1);
+  await expect.poll(()=>page.locator('img.leaflet-tile').evaluateAll(images=>images.length>0&&images.every(img=>(img as HTMLImageElement).complete&&(img as HTMLImageElement).naturalWidth>0)),{timeout:20000}).toBe(true);
+  await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+  await expect.poll(()=>page.evaluate(()=>window.scrollY)).toBe(0);
   await page.screenshot({path:`../docs/screenshots/storm-${test.info().project.name}.png`,fullPage:true,scale:'css'});
   await setStorm(0,()=>page.getByRole('button',{name:'Сбросить сценарий'}).click());
-  await expect(page.locator('.detail-metrics strong').first()).toContainText('14.9');
+  await expect(page.locator('.detail-metrics strong').first()).toContainText(String(base));
   await expect(page.locator('.weather-visual')).toContainText('Спокойное море');
   await expect(page.locator('.leaflet-overlay-pane path[stroke="#ec8d35"]')).toHaveCount(0);
 });
@@ -192,4 +196,81 @@ test('dashboard failure is shown and retry recovers', async ({page}) => {
   await page.unroute('**/api/dashboard?storm=0');
   await page.getByRole('button',{name:'Повторить',exact:true}).click();
   await expect(page.locator('.cargo-item')).toHaveCount(4);
+});
+
+test('explainable AI shows measured global importance and actual route inputs', async ({page,request}) => {
+  const data=await (await request.get('/api/dashboard')).json();
+  await page.getByRole('button',{name:'ML-аналитика',exact:true}).click();
+  const insights=page.locator('#analytics');
+  await expect(insights.getByRole('heading',{name:'Почему ИИ дал такой прогноз?'})).toBeVisible();
+  await expect(insights.locator('.factor-row')).toHaveCount(6);
+  await expect(insights).toContainText('Permutation importance');
+  await expect(insights).toContainText('не доказывают причинность');
+  for (const [i,key] of ['mae_hours','rmse_hours','r2','baseline_mae_hours'].entries()) {
+    await expect(insights.locator('.quality-grid strong').nth(i)).toContainText(new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2}).format(data.model[key]));
+  }
+  await expect(insights.locator('.prediction-inputs')).toContainText('Ветер');
+  await page.locator('.route-card').filter({hasText:'Западный сухопутный'}).click();
+  await expect(insights).toContainText('Западный сухопутный');
+  await expect(insights.locator('.prediction-inputs')).toContainText('1 630');
+  await insights.screenshot({path:`../docs/screenshots/explainable-ai-${test.info().project.name}.png`,scale:'css'});
+});
+
+test('port congestion, ETA comparison, risk sections and fastest route action', async ({page,request}) => {
+  const load=page.getByRole('combobox',{name:'Загрузка логистических узлов'});
+  const setLoad=async(value:string)=>{
+    const response=page.waitForResponse(r=>r.url().includes(`port_load=${value}`)&&r.status()===200);
+    await load.selectOption(value);
+    return (await (await response).json()).shipments[0].route;
+  };
+  const low=await setLoad('30');
+  const high=await setLoad('99');
+  expect(high.delay_hours).toBeGreaterThan(low.delay_hours);
+  await expect(page.locator('.detail-metrics strong').first()).toContainText(String(high.delay_hours));
+  await page.getByRole('button',{name:'Сбросить сценарий'}).click();
+  await expect(load).toHaveValue('');
+  const storm=page.waitForResponse(r=>r.url().endsWith('storm=100')&&r.status()===200);
+  await page.getByRole('slider',{name:'Интенсивность шторма'}).fill('100');
+  const shipment=(await (await storm).json()).shipments[0];
+  const comparison=page.getByRole('region',{name:'До и после сценария'});
+  await expect(comparison).toContainText('шторм 100%');
+  await expect(comparison).toContainText(String(shipment.route.delay_change_hours).replace('.',','));
+  await expect(page.locator('.leaflet-overlay-pane path[stroke="#d6752c"]')).toHaveCount(2);
+  await comparison.getByRole('button',{name:'Показать быстрый маршрут'}).click();
+  await expect(page.locator('.route-card.chosen')).toContainText('Западный сухопутный');
+  await expect(page.locator('.eta-line')).toContainText('Просмотр альтернативы');
+  const west=shipment.alternatives.find((r:{id:string})=>r.id==='west');
+  await expect(page.locator('.detail-metrics strong').nth(1)).toContainText(format(west.total_hours));
+  const stored=await (await request.get('/api/shipments/CF-2026-0841')).json();
+  expect(stored.route_id).toBe('direct');
+});
+
+test('failed scenario never presents stale predictions as the requested storm', async ({page}) => {
+  await page.route('**/api/dashboard?storm=100',r=>r.fulfill({status:502,contentType:'application/json',body:'{}'}));
+  await page.getByRole('slider',{name:'Интенсивность шторма'}).fill('100');
+  await expect(page.locator('.error-banner[role=alert]')).toContainText('последние успешно загруженные данные');
+  await expect(page.locator('.weather-visual')).toContainText('Спокойное море');
+  await expect(page.getByRole('region',{name:'До и после сценария'})).toContainText('шторм 0%');
+  await page.unroute('**/api/dashboard?storm=100');
+  await page.getByRole('button',{name:'Повторить загрузку'}).click();
+  await expect(page.locator('.weather-visual')).toContainText('Сильный шторм');
+  await expect(page.getByRole('region',{name:'До и после сценария'})).toContainText('шторм 100%');
+});
+
+test('integration gateway rejects foreign origin and oversized payloads', async ({request}) => {
+  const payload={shipment_id:ids[0],hs_code:'8471300000',invoice_number:'INV-BLOCKED',declared_value:48000,country:'IR'};
+  expect((await request.post('/api/customs',{data:payload,headers:{Origin:'https://foreign.invalid'}})).status()).toBe(403);
+  expect((await request.post('/api/customs',{data:payload})).status()).toBe(403);
+  expect((await request.post('/api/customs',{data:{...payload,invoice_number:'Я'.repeat(5000)},headers:{Origin:'http://127.0.0.1:3000'}})).status()).toBe(413);
+  expect((await request.post('http://127.0.0.1:8000/customs',{data:payload})).status()).toBe(401);
+  expect((await request.get('/api/unknown')).status()).toBe(404);
+  expect((await request.get('/api/dashboard?storm=101')).status()).toBe(422);
+});
+
+test('map remains usable without external tiles', async ({page}) => {
+  await page.route('**/*.tile.openstreetmap.org/**',route=>route.abort());
+  await page.reload();
+  await expect(page.getByRole('status')).toContainText('Подложка недоступна');
+  await expect(page.locator('.leaflet-overlay-pane path[fill="#183e53"]')).toHaveCount(7);
+  await expect(page.locator('.leaflet-overlay-pane path[stroke="#057c85"]')).toBeVisible();
 });

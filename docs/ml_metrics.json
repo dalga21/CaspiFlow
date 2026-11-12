@@ -1,0 +1,231 @@
+{
+  "metrics": {
+    "name": "Random Forest",
+    "version": "dd6d5aa09398",
+    "synthetic": true,
+    "seed": 42,
+    "split_seed": 43,
+    "permutation_seed": 44,
+    "train_samples": 1440,
+    "calibration_samples": 480,
+    "test_samples": 480,
+    "mae_hours": 2.9726,
+    "rmse_hours": 3.7231,
+    "r2": 0.8015,
+    "train_mae_hours": 2.4237,
+    "baseline_mae_hours": 6.8952,
+    "baseline_rmse_hours": 8.3754,
+    "baseline_r2": -0.0044,
+    "residual_p90_hours": 5.7057,
+    "interval_method": "split conformal, absolute residuals, calibration only, nominal 90%",
+    "test_interval_coverage": 0.8667,
+    "features": [
+      "wind_m_s",
+      "wave_m",
+      "port_load_percent",
+      "historical_delay_hours",
+      "distance_km",
+      "transfers"
+    ],
+    "split": "IID synthetic, 60% train / 20% calibration / 20% test; no tuning on test",
+    "duplicate_feature_rows": 0,
+    "cross_split_overlap": 0,
+    "dataset_sha256": "2ffd2616a6236d4dacf2947bc5338a64c49b490d1d0f10b99f3e975d90bd730e",
+    "parameters": {
+      "bootstrap": true,
+      "ccp_alpha": 0.0,
+      "criterion": "squared_error",
+      "max_depth": 12,
+      "max_features": 1.0,
+      "max_leaf_nodes": null,
+      "max_samples": null,
+      "min_impurity_decrease": 0.0,
+      "min_samples_leaf": 3,
+      "min_samples_split": 2,
+      "min_weight_fraction_leaf": 0.0,
+      "monotonic_cst": [
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "n_estimators": 100,
+      "n_jobs": 1,
+      "oob_score": false,
+      "random_state": 42,
+      "verbose": 0,
+      "warm_start": false
+    },
+    "versions": {
+      "python": "3.12.3",
+      "numpy": "2.5.4",
+      "sklearn": "1.9.1"
+    },
+    "explanation": {
+      "method": "permutation_importance",
+      "scope": "global held-out test",
+      "repeats": 10,
+      "scoring": "neg_mean_absolute_error",
+      "factors": [
+        {
+          "key": "wind_m_s",
+          "label": "Ветер",
+          "unit": "м/с",
+          "mae_increase_hours": 5.1013,
+          "std_hours": 0.2688
+        },
+        {
+          "key": "wave_m",
+          "label": "Высота волны",
+          "unit": "м",
+          "mae_increase_hours": 0.8514,
+          "std_hours": 0.0889
+        },
+        {
+          "key": "port_load_percent",
+          "label": "Загрузка узла",
+          "unit": "%",
+          "mae_increase_hours": 0.7262,
+          "std_hours": 0.0528
+        },
+        {
+          "key": "historical_delay_hours",
+          "label": "Историческая задержка",
+          "unit": "ч",
+          "mae_increase_hours": 0.1888,
+          "std_hours": 0.0116
+        },
+        {
+          "key": "transfers",
+          "label": "Перегрузки",
+          "unit": "",
+          "mae_increase_hours": 0.1512,
+          "std_hours": 0.0171
+        },
+        {
+          "key": "distance_km",
+          "label": "Длина маршрута",
+          "unit": "км",
+          "mae_increase_hours": 0.0247,
+          "std_hours": 0.0134
+        }
+      ]
+    },
+    "limitation": "Только синтетические IID-рейсы. Нет проверки на реальных перевозках. Диапазон откалиброван отдельно; покрытие на реальных данных не гарантируется. Важность факторов глобальная, не причинность и не вклад в отдельный прогноз."
+  },
+  "scenario_examples": {
+    "0": [
+      {
+        "id": "direct",
+        "load": 72.0,
+        "delay_hours": 19.8,
+        "total_hours": 77.8,
+        "co2_kg": 668,
+        "wind": 7.0,
+        "wave": 0.6,
+        "delay_change_hours": 0.0,
+        "risk_level": "low"
+      },
+      {
+        "id": "west",
+        "load": 81.0,
+        "delay_hours": 20.7,
+        "total_hours": 92.7,
+        "co2_kg": 2358,
+        "wind": 7.0,
+        "wave": 0.6,
+        "delay_change_hours": 0.0,
+        "risk_level": "low"
+      },
+      {
+        "id": "east",
+        "load": 64.0,
+        "delay_hours": 16.6,
+        "total_hours": 99.6,
+        "co2_kg": 1403,
+        "wind": 7.0,
+        "wave": 0.6,
+        "delay_change_hours": 0.0,
+        "risk_level": "low"
+      }
+    ],
+    "80": [
+      {
+        "id": "direct",
+        "load": 84.0,
+        "delay_hours": 34.7,
+        "total_hours": 92.7,
+        "co2_kg": 668,
+        "wind": 26.2,
+        "wave": 4.2,
+        "delay_change_hours": 14.9,
+        "risk_level": "high"
+      },
+      {
+        "id": "west",
+        "load": 82.0,
+        "delay_hours": 20.8,
+        "total_hours": 92.8,
+        "co2_kg": 2358,
+        "wind": 8.54,
+        "wave": 0.89,
+        "delay_change_hours": 0.1,
+        "risk_level": "low"
+      },
+      {
+        "id": "east",
+        "load": 72.4,
+        "delay_hours": 24.6,
+        "total_hours": 107.6,
+        "co2_kg": 1403,
+        "wind": 20.44,
+        "wave": 3.12,
+        "delay_change_hours": 8.0,
+        "risk_level": "elevated"
+      }
+    ],
+    "100": [
+      {
+        "id": "direct",
+        "load": 87.0,
+        "delay_hours": 43.5,
+        "total_hours": 101.5,
+        "co2_kg": 668,
+        "wind": 31.0,
+        "wave": 5.1,
+        "delay_change_hours": 23.7,
+        "risk_level": "high"
+      },
+      {
+        "id": "west",
+        "load": 82.2,
+        "delay_hours": 20.9,
+        "total_hours": 92.9,
+        "co2_kg": 2358,
+        "wind": 8.92,
+        "wave": 0.96,
+        "delay_change_hours": 0.2,
+        "risk_level": "low"
+      },
+      {
+        "id": "east",
+        "load": 74.5,
+        "delay_hours": 32.9,
+        "total_hours": 115.9,
+        "co2_kg": 1403,
+        "wind": 23.8,
+        "wave": 3.75,
+        "delay_change_hours": 16.3,
+        "risk_level": "high"
+      }
+    ]
+  },
+  "load_examples": {
+    "30": 11.2,
+    "50": 11.5,
+    "80": 19.9,
+    "99": 20.3
+  }
+}

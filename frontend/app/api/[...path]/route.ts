@@ -17,7 +17,7 @@ async function proxy(req: NextRequest, context: {params: Promise<{path: string[]
       headers['X-API-Key'] = process.env.CUSTOMS_API_KEY;
     }
     const body = req.method === 'POST' ? await req.text() : undefined;
-    if (body && body.length > 8192) return NextResponse.json({detail:'Слишком большой запрос'}, {status:413});
+    if (body && new TextEncoder().encode(body).byteLength > 8192) return NextResponse.json({detail:'Слишком большой запрос'}, {status:413});
     const response = await fetch(`${process.env.API_URL || 'http://127.0.0.1:8000'}/${route}${req.nextUrl.search}`, {method:req.method,headers,body,cache:'no-store',signal:AbortSignal.timeout(15000)});
     return new NextResponse(await response.text(), {status:response.status,headers:{'Content-Type':'application/json','Cache-Control':'no-store'}});
   } catch { return NextResponse.json({detail:'Backend недоступен. Проверьте запуск FastAPI.'}, {status:502}); }

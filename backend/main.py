@@ -4,19 +4,17 @@ import os
 import secrets
 import sqlite3
 from contextlib import asynccontextmanager, contextmanager
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.security import APIKeyHeader
-from pydantic import BaseModel, Field
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_absolute_error
-from sklearn.model_selection import train_test_split
+from pydantic import BaseModel, Field, ConfigDict
+from backend.ml import FEATURES, fit_model
 
 ROOT = Path(__file__).resolve().parent
-DB = ROOT / 'caspiflow.sqlite'
+DB = Path(os.environ.get('CASPIFLOW_DB_PATH', str(ROOT / 'caspiflow.sqlite'))).resolve()
 PORTS = [
  {'id':'astrakhan','name':'Астрахань','country':'Россия','lat':46.35,'lon':48.04,'load':72},
  {'id':'makhachkala','name':'Махачкала','country':'Россия','lat':42.98,'lon':47.50,'load':58},
@@ -35,7 +33,7 @@ FACTORS = {'sea':0.016,'rail':0.022,'road':0.085}
 
 @contextmanager
 def db():
- conn = sqlite3.connect(DB)
+ conn = sqlite3.connect(DB, timeout=15)
  conn.row_factory = sqlite3.Row
  try:
   yield conn
@@ -64,13 +62,10 @@ CREATE TABLE IF NOT EXISTS customs(id TEXT PRIMARY KEY,shipment_id TEXT UNIQUE N
     c.execute('INSERT INTO history VALUES (?,?,?)',(i,json.dumps(x),float(y)))
 
 def train():
- global model, metrics, residual
+ global model, metrics, residual, bundle
  with db() as c: rows=c.execute('SELECT features,delay FROM history ORDER BY id').fetchall()
- x=np.array([json.loads(r['features']) for r in rows]); y=np.array([r['delay'] for r in rows])
- xt,xv,yt,yv=train_test_split(x,y,test_size=.2,random_state=42)
- model=RandomForestRegressor(n_estimators=100,max_depth=12,min_samples_leaf=3,random_state=42,n_jobs=1)
- model.fit(xt,yt); pred=model.predict(xv); residual=float(np.quantile(np.abs(yv-pred),.9))
- metrics={'name':'Random Forest','train_samples':len(xt),'test_samples':len(xv),'mae_hours':round(mean_absolute_error(yv,pred),2),'residual_p90_hours':round(residual,2),'features':['wind_m_s','wave_m','port_load_percent','historical_delay_hours','distance_km','transfers'],'synthetic':True,'seed':42,'limitation':'Обучено и проверено только на синтетике. Интервал ±p90 ошибки на синтетической тестовой выборке не гарантирует точность на реальных рейсах.'}
+ bundle=fit_model(rows)
+ model=bundle.estimator; metrics=bundle.metrics; residual=bundle.radius
 
 @asynccontextmanager
 async def lifespan(app):
@@ -82,37 +77,57 @@ key_header=APIKeyHeader(name='X-API-Key',auto_error=False)
 def authorize(key: str|None=Depends(key_header)):
  if not key or not secrets.compare_digest(key,os.environ['CUSTOMS_API_KEY']): raise HTTPException(401,'Invalid API key')
 
-def route_view(route,weight,storm):
+def route_view(route,weight,storm,port_load=None,departure_at=None):
  exposure=route['exposure']; wind=7+storm*.24*exposure; wave=.6+storm*.045*exposure
- load=min(99,route['load']+storm*.15*exposure)
+ base_load=route['load'] if port_load is None else port_load
+ load=min(99,base_load+storm*.15*exposure)
  features=[wind,wave,load,route['history'],sum(s['km'] for s in route['segments']),route['transfers']]
- delay=round(float(model.predict([features])[0]),1)
+ baseline_features=[7,.6,base_load,*features[3:]]
+ # Both before and after come from the trained estimator, never a hand-written delay formula.
+ predicted=model.predict([features,baseline_features])
+ delay=round(float(predicted[0]),1); base_delay=round(float(predicted[1]),1)
+ total=round(route['hours']+delay,1); base_total=round(route['hours']+base_delay,1)
  co2=round(sum(s['km']*FACTORS[s['mode']]*weight for s in route['segments']))
- return {**route,'delay_hours':delay,'total_hours':round(route['hours']+delay,1),'co2_kg':co2,'wind':round(wind,1),'wave':round(wave,1),'load':round(load),'interval':[round(max(0,delay-residual),1),round(delay+residual,1)]}
+ departure=datetime.fromisoformat(departure_at) if departure_at else datetime.now(timezone.utc)
+ outside=[FEATURES[i][0] for i,v in enumerate(features) if v<bundle.bounds[0,i] or v>bundle.bounds[1,i]]
+ return {**route,'delay_hours':delay,'total_hours':total,'co2_kg':co2,
+  'wind':round(wind,2),'wave':round(wave,2),'load':round(load,1),
+  'interval':[round(max(0,delay-residual),1),round(delay+residual,1)],
+  'baseline':{'delay_hours':base_delay,'total_hours':base_total,
+              'eta_at':(departure+timedelta(hours=base_total)).isoformat()},
+  'delay_change_hours':round(delay-base_delay,1),
+  'eta_at':(departure+timedelta(hours=total)).isoformat(),
+  'risk_level':'high' if storm*exposure>=60 else 'elevated' if storm*exposure>=25 else 'low',
+  'hazard_legs':([['astrakhan','anzali']] if route['id']=='direct' else [['aktau','amirabad']] if route['id']=='east' else []) if storm*exposure>=25 else [],
+  'prediction':{'model_version':metrics['version'],'source':'RandomForestRegressor.predict',
+                'inputs':dict(zip(metrics['features'],features)), 'outside_training_range':outside}}
 
-def shipment_view(item,storm):
- routes=[route_view(r,item['weight'],storm) for r in ROUTES]
+def shipment_view(item,storm,port_load=None):
+ # Fixed snapshot anchor: storm changes ETA, not departure or stored cargo position.
+ departure=datetime.fromisoformat(item['updated_at'])-timedelta(hours=next(r for r in ROUTES if r['id']==item['route_id'])['hours']*item['progress'])
+ routes=[route_view(r,item['weight'],storm,port_load,departure.isoformat()) for r in ROUTES]
  current=next(r for r in routes if r['id']==item['route_id'])
  with db() as c: declaration=c.execute('SELECT id,digest,created_at FROM customs WHERE shipment_id=?',(item['id'],)).fetchone()
- return {**item,'route':current,'alternatives':routes,'customs':dict(declaration) if declaration else None}
+ return {**item,'departed_at':departure.isoformat(),'route':current,'alternatives':routes,'customs':dict(declaration) if declaration else None}
 
 @app.get('/health')
 def health():return {'status':'ok','data':'synthetic'}
 @app.get('/model')
 def model_info():return metrics
 @app.get('/dashboard')
-def dashboard(storm: int=Query(0,ge=0,le=100)):
+def dashboard(storm: int=Query(0,ge=0,le=100),port_load: int|None=Query(None,ge=30,le=99)):
  with db() as c: items=[json.loads(r[0]) for r in c.execute('SELECT data FROM shipments ORDER BY id')]; ports=[json.loads(r[0]) for r in c.execute('SELECT data FROM ports')]
- return {'shipments':[shipment_view(s,storm) for s in items],'ports':ports,'model':metrics,'storm':storm,'data_source':'Синтетические демонстрационные данные','as_of':datetime.now(timezone.utc).isoformat()}
+ return {'shipments':[shipment_view(s,storm,port_load) for s in items],'ports':ports,'model':metrics,'storm':storm,'port_load':port_load,'data_source':'Синтетические демонстрационные данные','as_of':datetime.now(timezone.utc).isoformat()}
 @app.get('/shipments/{shipment_id}')
-def shipment(shipment_id:str,storm:int=Query(0,ge=0,le=100)):
+def shipment(shipment_id:str,storm:int=Query(0,ge=0,le=100),port_load:int|None=Query(None,ge=30,le=99)):
  with db() as c: row=c.execute('SELECT data FROM shipments WHERE id=?',(shipment_id,)).fetchone()
  if not row: raise HTTPException(404,'Груз не найден')
- return shipment_view(json.loads(row[0]),storm)
+ return shipment_view(json.loads(row[0]),storm,port_load)
 
 class Declaration(BaseModel):
- shipment_id:str=Field(pattern=r'^CF-2026-\d{4}$')
- hs_code:str=Field(pattern=r'^\d{10}$')
+ model_config=ConfigDict(extra='forbid',str_strip_whitespace=True)
+ shipment_id:str=Field(pattern=r'^CF-2026-[0-9]{4}$')
+ hs_code:str=Field(pattern=r'^[0-9]{10}$')
  invoice_number:str=Field(min_length=3,max_length=60,pattern=r'^[A-Za-zА-Яа-я0-9 /_-]+$')
  declared_value:float=Field(gt=0,le=1_000_000_000,allow_inf_nan=False)
  country:str=Field(pattern=r'^(IR|RU|AZ|KZ|TM)$')
@@ -120,6 +135,7 @@ class Declaration(BaseModel):
 @app.post('/customs',dependencies=[Depends(authorize)])
 def customs(data:Declaration):
  with db() as c:
+  c.execute('BEGIN IMMEDIATE')
   if not c.execute('SELECT 1 FROM shipments WHERE id=?',(data.shipment_id,)).fetchone():raise HTTPException(404,'Груз не найден')
   old=c.execute('SELECT * FROM customs WHERE shipment_id=?',(data.shipment_id,)).fetchone()
   payload=json.dumps(data.model_dump(),sort_keys=True,ensure_ascii=False); digest=hashlib.sha256(payload.encode()).hexdigest()
