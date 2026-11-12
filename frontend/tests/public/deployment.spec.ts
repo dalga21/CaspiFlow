@@ -15,6 +15,13 @@ test('public health, ML, cargo, CO2, map and manual storm',async({page,request})
  expect(before.shipments).toHaveLength(4);
  await page.goto('/');await expect(page.locator('.cargo-item')).toHaveCount(4);
  await expect(page.locator('.leaflet-container')).toBeVisible();
+ const attribution=page.locator('.leaflet-control-attribution');
+ await expect(attribution).toBeVisible();
+ await expect(attribution).toContainText('Leaflet | © OpenStreetMap contributors');
+ await expect(attribution.locator('svg,img,.leaflet-attribution-flag')).toHaveCount(0);
+ await expect(attribution.locator('a')).toHaveCount(2);
+ await expect(attribution.getByRole('link',{name:'Leaflet',exact:true})).toHaveAttribute('href','https://leafletjs.com');
+ await expect(attribution.getByRole('link',{name:'OpenStreetMap',exact:true})).toHaveAttribute('href','https://www.openstreetmap.org/copyright');
  await expect(page.locator('.leaflet-tile-loaded').first()).toBeVisible();
  await page.getByRole('button',{name:'Zoom out'}).click();
  const port=page.locator('.leaflet-overlay-pane path[fill="#183e53"]').first();

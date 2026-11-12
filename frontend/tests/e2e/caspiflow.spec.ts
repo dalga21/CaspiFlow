@@ -81,6 +81,14 @@ test('storm button, slider, recommendation change, and reset', async ({page, req
 
 test('map tiles, port popup, zoom, pan, cargo markers and route geometry', async ({page}) => {
   await expect(page.locator('.leaflet-tile-loaded').first()).toBeVisible();
+  const attribution=page.locator('.leaflet-control-attribution');
+  await expect(attribution).toHaveCount(1);
+  await expect(attribution).toBeVisible();
+  await expect(attribution).toContainText('OpenStreetMap contributors');
+  await expect(attribution.getByRole('link',{name:'Leaflet',exact:true})).toHaveAttribute('href','https://leafletjs.com');
+  await expect(attribution.getByRole('link',{name:'OpenStreetMap',exact:true})).toHaveAttribute('href','https://www.openstreetmap.org/copyright');
+  await expect(attribution.locator('svg,img,.leaflet-attribution-flag')).toHaveCount(0);
+  await page.locator('.transit-map').screenshot({path:`../docs/screenshots/map-attribution-${test.info().project.name}.png`,scale:'css'});
   const zoomOut = page.getByRole('button',{name:'Zoom out'});
   await zoomOut.click();
   const port = page.locator('.leaflet-overlay-pane path[fill="#183e53"]').filter({visible:true});

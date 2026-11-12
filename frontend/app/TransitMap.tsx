@@ -1,6 +1,6 @@
 'use client';
 import {useState} from 'react';
-import {MapContainer,TileLayer,Polyline,CircleMarker,Popup,Polygon,Tooltip} from 'react-leaflet';
+import {MapContainer,AttributionControl,TileLayer,Polyline,CircleMarker,Popup,Polygon,Tooltip} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import type {Port} from './types';
 type MapRoute={id:string;name:string;ports:string[];hazard_legs?:string[][]};
@@ -11,9 +11,10 @@ export default function TransitMap({data,selected,onSelect,routeId,storm}:{data:
  const port=(id:string)=>data.ports.find(p=>p.id===id)!;
  const route=selected.alternatives.find(r=>r.id===routeId)||selected.route;
  const points=route.ports.map(id=>[port(id).lat,port(id).lon] as [number,number]);
- return <MapContainer center={[41.7,50.5]} zoom={5} minZoom={4} maxZoom={9} scrollWheelZoom={false} className="transit-map" aria-label="Карта каспийских грузовых маршрутов">
+ return <MapContainer attributionControl={false} center={[41.7,50.5]} zoom={5} minZoom={4} maxZoom={9} scrollWheelZoom={false} className="transit-map" aria-label="Карта каспийских грузовых маршрутов">
+  <AttributionControl prefix='<a href="https://leafletjs.com" title="A JavaScript library for interactive maps">Leaflet</a>' />
   <Polygon positions={sea} pathOptions={{fillColor:'#b8d8e4',fillOpacity:0.65,color:'#8eb9c9',weight:1}} />
-  <TileLayer eventHandlers={{tileerror:()=>setTilesUnavailable(true)}} attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+  <TileLayer eventHandlers={{tileerror:()=>setTilesUnavailable(true)}} attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
   {selected.alternatives.filter(r=>r.id!==route.id).map(r=><Polyline key={r.id} positions={r.ports.map(id=>[port(id).lat,port(id).lon])} pathOptions={{color:'#8b9eb3',weight:2,dashArray:'5 7',opacity:0.65}} />)}
   <Polyline positions={points} pathOptions={{color:'#057c85',weight:4,opacity:.9}} />
   {selected.alternatives.flatMap(r=>(r.hazard_legs||[]).map((leg,i)=><Polyline key={`hazard-${r.id}-${i}`} positions={leg.map(id=>[port(id).lat,port(id).lon])} pathOptions={{color:'#d6752c',weight:6,dashArray:'8 8',opacity:.85}}><Tooltip>Условно опасный морской участок · {r.name}. Синтетический сценарий, не запрет навигации.</Tooltip></Polyline>))}
