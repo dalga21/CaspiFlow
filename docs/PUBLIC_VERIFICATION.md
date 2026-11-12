@@ -1,11 +1,11 @@
 # Проверка опубликованной версии
 
-12 ноября 2026, проверка реального публичного HTTPS-домена через HTTP-клиент и локально установленный Chromium/Playwright. Ответы приложения не подменялись mocks.
+13 ноября 2026, проверка реального публичного HTTPS-домена через HTTP-клиент и локально установленный Chromium/Playwright. Ответы приложения не подменялись mocks.
 
-- Сайт: https://antibodies-victorian-give-explorer.trycloudflare.com
-- Администратор: https://antibodies-victorian-give-explorer.trycloudflare.com/admin
-- Health: https://antibodies-victorian-give-explorer.trycloudflare.com/api/health
-- Исходный commit опубликованной сборки: `e7f8f750b38d`. Существующий код приложения сохранён. Более поздние commits добавляют публичные тесты, отчёт и ожидание внешней готовности в следующем запуске supervisor.
+- Сайт: https://commodities-york-nomination-proof.trycloudflare.com
+- Администратор: https://commodities-york-nomination-proof.trycloudflare.com/admin
+- Health: https://commodities-york-nomination-proof.trycloudflare.com/api/health
+- Исходный commit опубликованной сборки: `c37eb3dce12b`. Существующий код приложения сохранён. Включено исправление префикса атрибуции Leaflet; в публичном Chromium проверено отсутствие флага и наличие обеих ссылок. Новая публикация ожидает готовности внешнего health.
 
 Адрес временный и зависит от работающего MacBook; текущий статус уточняется `backend/.venv/bin/python scripts/public_demo.py status` и внешним запросом health. После перезапуска Quick Tunnel адрес изменится.
 
@@ -18,7 +18,7 @@
 | `/api/admin/data` без сессии / с подделанной cookie | HTTP 401 |
 | POST admin login с чужим Origin | HTTP 403 |
 | `.env`, `.runtime/.../secrets.json`, SQLite, `.git/config` | HTTP 404 |
-| Неверные admin-пароли | 401 × 5, затем 429; удалены только записи попыток этого теста |
+| Неверные admin-пароли (проверка 12 ноября, код не менялся) | 401 × 5, затем 429; удалены только записи попыток этого теста |
 | Отдельный production build | PASS, Next.js Node runtime; npm ci по lockfile |
 | TypeScript основного frontend и публичных тестов | PASS |
 | Playwright по публичному HTTPS | **8 passed, 37.5 s**, 4 сценария × desktop/mobile Chromium |
@@ -51,7 +51,7 @@
 Повтор из корня проекта:
 
 ```bash
-CASPIFLOW_PUBLIC_URL=https://antibodies-victorian-give-explorer.trycloudflare.com \
+CASPIFLOW_PUBLIC_URL=https://commodities-york-nomination-proof.trycloudflare.com \
   npm --prefix frontend run test:e2e -- --config playwright.public.config.ts
 ```
 

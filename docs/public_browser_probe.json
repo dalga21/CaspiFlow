@@ -1,25 +1,54 @@
 {
-  "url": "https://antibodies-victorian-give-explorer.trycloudflare.com",
-  "checked_at": "2026-11-12T20:52:11.523Z",
+  "url": "https://commodities-york-nomination-proof.trycloudflare.com",
+  "checked_at": "2026-11-12T21:15:54.352Z",
   "http_status": 200,
   "secureContext": true,
-  "origin": "https://antibodies-victorian-give-explorer.trycloudflare.com",
+  "origin": "https://commodities-york-nomination-proof.trycloudflare.com",
   "overflow": false,
+  "attribution": {
+    "text": "Leaflet | © OpenStreetMap contributors",
+    "icons": 0,
+    "links": [
+      {
+        "text": "Leaflet",
+        "href": "https://leafletjs.com"
+      },
+      {
+        "text": "OpenStreetMap",
+        "href": "https://www.openstreetmap.org/copyright"
+      }
+    ]
+  },
   "localhost_requests": [],
   "page_errors": [],
   "requests": [
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/_next/static/chunks/2glruwg76n4jh.css",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/_next/static/chunks/0wfurka9errm3.js",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/_next/static/chunks/1egr3drbz0l3q.js",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/_next/static/chunks/39_j1bdzreq0m.js",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/_next/static/chunks/turbopack-2u1d16houkiyo.js",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/_next/static/chunks/3qfy96eoyh-ek.js",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/_next/static/chunks/1h9rsdphoi30-.js",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/_next/static/chunks/01hum03spb2aw.js",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/api/dashboard?storm=0",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/_next/static/chunks/2qzgxv8q_q_hy.js",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/_next/static/chunks/0n8kzvw2z_6as.css",
-    "https://antibodies-victorian-give-explorer.trycloudflare.com/api/forecast"
+    "https://commodities-york-nomination-proof.trycloudflare.com/",
+    "https://commodities-york-nomination-proof.trycloudflare.com/_next/static/chunks/2glruwg76n4jh.css",
+    "https://commodities-york-nomination-proof.trycloudflare.com/_next/static/chunks/0wfurka9errm3.js",
+    "https://commodities-york-nomination-proof.trycloudflare.com/_next/static/chunks/1egr3drbz0l3q.js",
+    "https://commodities-york-nomination-proof.trycloudflare.com/_next/static/chunks/39_j1bdzreq0m.js",
+    "https://commodities-york-nomination-proof.trycloudflare.com/_next/static/chunks/turbopack-2u1d16houkiyo.js",
+    "https://commodities-york-nomination-proof.trycloudflare.com/_next/static/chunks/3qfy96eoyh-ek.js",
+    "https://commodities-york-nomination-proof.trycloudflare.com/_next/static/chunks/3o_33rzqq7eh_.js",
+    "https://commodities-york-nomination-proof.trycloudflare.com/_next/static/chunks/01hum03spb2aw.js",
+    "https://commodities-york-nomination-proof.trycloudflare.com/api/dashboard?storm=0",
+    "https://commodities-york-nomination-proof.trycloudflare.com/_next/static/chunks/1_p6oyvwemkom.js",
+    "https://commodities-york-nomination-proof.trycloudflare.com/_next/static/chunks/0n8kzvw2z_6as.css",
+    "https://b.tile.openstreetmap.org/5/20/11.png",
+    "https://a.tile.openstreetmap.org/5/20/10.png",
+    "https://a.tile.openstreetmap.org/5/19/11.png",
+    "https://c.tile.openstreetmap.org/5/21/11.png",
+    "https://c.tile.openstreetmap.org/5/20/12.png",
+    "https://c.tile.openstreetmap.org/5/19/10.png",
+    "https://b.tile.openstreetmap.org/5/21/10.png",
+    "https://b.tile.openstreetmap.org/5/19/12.png",
+    "https://a.tile.openstreetmap.org/5/21/12.png",
+    "https://c.tile.openstreetmap.org/5/18/11.png",
+    "https://a.tile.openstreetmap.org/5/22/11.png",
+    "https://b.tile.openstreetmap.org/5/18/10.png",
+    "https://c.tile.openstreetmap.org/5/22/10.png",
+    "https://a.tile.openstreetmap.org/5/18/12.png",
+    "https://b.tile.openstreetmap.org/5/22/12.png",
+    "https://commodities-york-nomination-proof.trycloudflare.com/api/forecast"
   ]
 }

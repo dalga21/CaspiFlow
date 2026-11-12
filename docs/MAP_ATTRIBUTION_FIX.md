@@ -14,3 +14,7 @@
 Тайловый URL, координаты/центр, диапазон масштаба, маршруты, маркеры, popup, геометрия и обработчики взаимодействия не менялись. Компонент общий для ручного и автоматического режимов.
 
 Проверка: production build, TypeScript; Playwright desktop/mobile для маркеров, всех семи popup, масштаба, перемещения, смены маршрута, работы без внешних тайлов и автоматического режима. В тест карты добавлены проверки единственного видимого блока атрибуции, обеих точных ссылок и отсутствия SVG/изображений флага. Скриншоты: [desktop](screenshots/map-attribution-desktop.png), [mobile](screenshots/map-attribution-mobile.png).
+
+Локальный результат: **6/6 Playwright (24.4 s), TypeScript и production build — PASS**. Публичная копия обновляется тем же commit; текущая ссылка и фактические публичные результаты — [PUBLIC_VERIFICATION.md](PUBLIC_VERIFICATION.md).
+
+Публичный результат: **8/8 Playwright desktop/mobile (37.5 s), HTTP 200**. Обновлённый адрес: https://commodities-york-nomination-proof.trycloudflare.com. Старая ссылка Quick Tunnel после перезапуска больше не используется. Отдельным публичным Chromium probe подтверждено отсутствие значка также на карте автопрогноза: [public_browser_probe.json](public_browser_probe.json). База и production-секреты сохранены.
