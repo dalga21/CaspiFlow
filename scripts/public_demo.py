@@ -13,7 +13,7 @@ import subprocess
 import sys
 import tarfile
 import time
-import urllib.request
+import httpx
 
 ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / '.runtime/public-demo'
@@ -95,9 +95,9 @@ def wait_http(url, children, timeout=60):
         if any(p.poll() is not None for p in children):
             raise RuntimeError('A demo process exited; inspect private logs in .runtime/public-demo/')
         try:
-            with urllib.request.urlopen(url, timeout=3) as r:
-                if r.status == 200 and json.load(r).get("status") == "ok":
-                    return
+            response = httpx.get(url, timeout=3, follow_redirects=False)
+            if response.status_code == 200 and response.json().get("status") == "ok":
+                return
         except Exception:
             pass
         time.sleep(1)

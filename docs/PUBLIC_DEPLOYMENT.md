@@ -10,7 +10,7 @@ backend/.venv/bin/python scripts/public_demo.py status
 backend/.venv/bin/python scripts/public_demo.py stop
 ```
 
-`start` собирает текущий Git HEAD в `.runtime/public-demo/releases/<sha>` через `git archive` (только отслеживаемые файлы), устанавливает frontend по package-lock и делает production build. Используется установленный `backend/.venv` с зависимостями из `backend/requirements.lock.txt`. Сначала создаётся HTTPS-туннель, затем его точный домен становится `APP_ORIGIN` обоих серверов. Проверяется health FastAPI и Next gateway. Watchdog останавливает дочерние процессы при их отказе. `caffeinate -i` препятствует автоматическому сну при открытой крышке; закрытие крышки, выключение и потеря сети всё равно остановят доступность.
+`start` собирает текущий Git HEAD в `.runtime/public-demo/releases/<sha>` через `git archive` (только отслеживаемые файлы), устанавливает frontend по package-lock и делает production build. Используется установленный `backend/.venv` с зависимостями из `backend/requirements.lock.txt`. Сначала создаётся HTTPS-туннель, затем его точный домен становится `APP_ORIGIN` обоих серверов. Проверяется JSON health FastAPI, Next gateway и самого публичного HTTPS-домена; hostname не считается готовым до внешнего HTTP 200 со `status=ok`. HTTPS проверяется с доверенными CA httpx/certifi, без отключения проверки сертификатов. Watchdog останавливает дочерние процессы при их отказе. `caffeinate -i` препятствует автоматическому сну при открытой крышке; закрытие крышки, выключение и потеря сети всё равно остановят доступность.
 
 Нужен официальный `cloudflared` в `.runtime/tools/cloudflared`: [загрузки](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/downloads/). На этой машине установлен Darwin ARM64 2026.11.0 из релиза Cloudflare; SHA-256 архива проверен по digest GitHub: `8c2f90277ef06a6080bb40b964d33f09f1188102f8798f2e344174b6cf41accf`.
 
@@ -35,3 +35,9 @@ Random Forest обучается при старте на детерминиро
 ## Проверка публичного URL
 
 После запуска проверяется фактический HTTPS-адрес, а не localhost. Итог и актуальный адрес будут зафиксированы в `PUBLIC_VERIFICATION.md` после реальных проверок.
+
+Актуальная проверенная публичная ссылка, HTTP-статусы и 8 браузерных проверок: [PUBLIC_VERIFICATION.md](PUBLIC_VERIFICATION.md). Повтор:
+
+```bash
+CASPIFLOW_PUBLIC_URL=<актуальный-https-origin> npm --prefix frontend run test:e2e -- --config playwright.public.config.ts
+```
