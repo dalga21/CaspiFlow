@@ -152,6 +152,7 @@ def test_economics_and_recommendation_known_arithmetic():
 
 def test_weather_units_and_out_of_horizon_are_not_silently_accepted(client,monkeypatch):
     class WrongUnits:
+        status_code=200
         def raise_for_status(self):pass
         def json(self):
             return [{'hourly_units':{'wind_speed_10m':'km/h'},'hourly':{'time':[],'wind_speed_10m':[]}} for _ in weather.POINTS]

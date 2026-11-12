@@ -1,0 +1,472 @@
+{
+  "recorded_at": "2026-11-12T16:56:35.627816+00:00",
+  "providers": [
+    {
+      "kind": "wind",
+      "url": "https://api.open-meteo.com/v1/forecast?latitude=44.1%2C41.9%2C39.7%2C42.5%2C40.2%2C37.8%2C40.37&longitude=48.4%2C48.8%2C49.2%2C51.5%2C52.2%2C53.0%2C49.85&hourly=wind_speed_10m&forecast_hours=72&timezone=UTC&cell_selection=nearest&timeformat=unixtime&wind_speed_unit=ms",
+      "status": 200,
+      "locations": [
+        {
+          "id": "direct-north",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wind_speed_10m": "m/s"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            8.0,
+            8.04,
+            8.44
+          ],
+          "lat": 44.12547,
+          "lon": 48.39222
+        },
+        {
+          "id": "direct-mid",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "location_id",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wind_speed_10m": "m/s"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            1.2,
+            0.98,
+            0.89
+          ],
+          "lat": 41.908363,
+          "lon": 48.758766
+        },
+        {
+          "id": "direct-south",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "location_id",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wind_speed_10m": "m/s"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            1.27,
+            1.0,
+            1.06
+          ],
+          "lat": 39.69819,
+          "lon": 49.193756
+        },
+        {
+          "id": "east-north",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "location_id",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wind_speed_10m": "m/s"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            12.28,
+            13.17,
+            11.33
+          ],
+          "lat": 42.507713,
+          "lon": 51.489674
+        },
+        {
+          "id": "east-mid",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "location_id",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wind_speed_10m": "m/s"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            10.1,
+            9.88,
+            10.52
+          ],
+          "lat": 40.222153,
+          "lon": 52.19229
+        },
+        {
+          "id": "east-south",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "location_id",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wind_speed_10m": "m/s"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            6.38,
+            6.62,
+            6.57
+          ],
+          "lat": 37.799835,
+          "lon": 53.01196
+        },
+        {
+          "id": "west-land",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "location_id",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wind_speed_10m": "m/s"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            4.66,
+            4.3,
+            3.72
+          ],
+          "lat": 40.414165,
+          "lon": 49.82638
+        }
+      ]
+    },
+    {
+      "kind": "wave",
+      "url": "https://marine-api.open-meteo.com/v1/marine?latitude=44.1%2C41.9%2C39.7%2C42.5%2C40.2%2C37.8&longitude=48.4%2C48.8%2C49.2%2C51.5%2C52.2%2C53.0&hourly=wave_height&forecast_hours=72&timezone=UTC&cell_selection=nearest&timeformat=unixtime",
+      "status": 200,
+      "locations": [
+        {
+          "id": "direct-north",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wave_height": "m"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            1.58,
+            1.56,
+            1.52
+          ],
+          "lat": 44.125,
+          "lon": 48.375015
+        },
+        {
+          "id": "direct-mid",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "location_id",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wave_height": "m"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            0.96,
+            0.92,
+            0.88
+          ],
+          "lat": 41.875,
+          "lon": 48.79167
+        },
+        {
+          "id": "direct-south",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "location_id",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wave_height": "m"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 0,
+          "first_values": [
+            null,
+            null,
+            null
+          ],
+          "lat": 39.708336,
+          "lon": 49.208344
+        },
+        {
+          "id": "east-north",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "location_id",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wave_height": "m"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            1.98,
+            1.92,
+            1.86
+          ],
+          "lat": 42.541664,
+          "lon": 51.458344
+        },
+        {
+          "id": "east-mid",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "location_id",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wave_height": "m"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            0.98,
+            0.98,
+            0.98
+          ],
+          "lat": 40.208336,
+          "lon": 52.208344
+        },
+        {
+          "id": "east-south",
+          "fields": [
+            "latitude",
+            "longitude",
+            "generationtime_ms",
+            "utc_offset_seconds",
+            "timezone",
+            "timezone_abbreviation",
+            "elevation",
+            "location_id",
+            "hourly_units",
+            "hourly"
+          ],
+          "units": {
+            "time": "unixtime",
+            "wave_height": "m"
+          },
+          "reason": null,
+          "first_times": [
+            1794499200,
+            1794502800
+          ],
+          "last_time": [
+            1794754800
+          ],
+          "valid": 72,
+          "first_values": [
+            0.24,
+            0.24,
+            0.22
+          ],
+          "lat": 37.791664,
+          "lon": 52.958344
+        }
+      ]
+    }
+  ]
+}

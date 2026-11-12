@@ -165,9 +165,9 @@ def customs(data:Declaration):
 register_admin(app,db,authorize)
 
 @app.get('/forecast')
-def forecast():
+def forecast(retry:bool=Query(False)):
  settings=load_settings(db)
- weather=enrich_snapshot(weather_service.snapshot(),settings)
+ weather=enrich_snapshot(weather_service.snapshot(retry=retry),settings)
  passages={r['id']:passage(r,weather,settings) for r in ROUTES}
  with db() as c:
   items=[json.loads(r[0]) for r in c.execute('SELECT data FROM shipments ORDER BY id')]

@@ -122,9 +122,9 @@ test('private admin login, create/edit cargo, settings, journal and logout',asyn
 test('auto forecast failure and empty states never turn missing waves into zero',async({page,request})=>{
  const payload=await(await request.get('/api/forecast')).json();
  payload.weather.errors=[{source:'wave',message:'Тест недоступности Open-Meteo'}];
- payload.weather.points=payload.weather.points.map((p:Record<string,unknown>)=>({...p,hourly:(p.hourly as Record<string,unknown>[]).map(h=>({...h,wind:null,wave:null,risk_index:null}))}));
+ payload.weather.points=payload.weather.points.map((p:Record<string,unknown>)=>({...p,hourly:(p.hourly as Record<string,unknown>[]).map(h=>({...h,wind:null,wave:null,risk_index:null,wind_index:null,wave_index:null}))}));
  payload.shipments=payload.shipments.map((s:Record<string,unknown>)=>({...s,recommendation:{route_id:null,conditional:true,scores:[],reason:'Недостаточно данных'},alternatives:(s.alternatives as Record<string,unknown>[]).map(r=>({...r,delay_hours:null,total_hours:null,eta_at:null,passage:{...(r.passage as object),complete:false},economics:{...(r.economics as object),total_cost_usd:null,delay_cost_usd:null}}))}));
- await page.route('**/api/forecast',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(payload)}));
+ await page.route('**/api/forecast*',r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(payload)}));
  await page.goto('/');await expect(page.locator('.cargo-item').first()).toBeVisible();
  await page.getByRole('button',{name:'Автопрогноз',exact:true}).click();
  await expect(page.locator('.forecast-source .error-banner')).toContainText('Синтетическая подмена отключена');
