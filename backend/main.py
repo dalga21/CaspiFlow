@@ -10,8 +10,13 @@ from pathlib import Path
 import numpy as np
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.security import APIKeyHeader
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field, ConfigDict
 from backend.ml import FEATURES, fit_model
+from backend.settings import initialize_settings,load_settings,economics,recommend
+from backend.weather import WeatherService,enrich_snapshot,passage
+from backend.admin import register_admin
 
 ROOT = Path(__file__).resolve().parent
 DB = Path(os.environ.get('CASPIFLOW_DB_PATH', str(ROOT / 'caspiflow.sqlite'))).resolve()
@@ -41,6 +46,7 @@ def db():
  finally: conn.close()
 
 def initialize():
+ initialize_settings(db)
  with db() as c:
   c.executescript('''CREATE TABLE IF NOT EXISTS ports(id TEXT PRIMARY KEY,data TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS shipments(id TEXT PRIMARY KEY,data TEXT NOT NULL);
@@ -70,14 +76,22 @@ def train():
 @asynccontextmanager
 async def lifespan(app):
  if not os.environ.get('CUSTOMS_API_KEY'): raise RuntimeError('Set CUSTOMS_API_KEY before startup')
- initialize();train();yield
+ global weather_service
+ initialize();train();weather_service=WeatherService()
+ with db() as c:c.execute('DELETE FROM admin_sessions')
+ yield
 
 app=FastAPI(title='CaspiFlow Demo API',version='0.1.0',lifespan=lifespan)
+@app.exception_handler(RequestValidationError)
+async def validation_error(request,exc):
+ return JSONResponse(status_code=422,content={'detail':[{'loc':list(e['loc']),'msg':e['msg'],'type':e['type']} for e in exc.errors()]})
+
 key_header=APIKeyHeader(name='X-API-Key',auto_error=False)
 def authorize(key: str|None=Depends(key_header)):
  if not key or not secrets.compare_digest(key,os.environ['CUSTOMS_API_KEY']): raise HTTPException(401,'Invalid API key')
 
 def route_view(route,weight,storm,port_load=None,departure_at=None):
+ settings=load_settings(db)
  exposure=route['exposure']; wind=7+storm*.24*exposure; wave=.6+storm*.045*exposure
  base_load=route['load'] if port_load is None else port_load
  load=min(99,base_load+storm*.15*exposure)
@@ -90,7 +104,7 @@ def route_view(route,weight,storm,port_load=None,departure_at=None):
  co2=round(sum(s['km']*FACTORS[s['mode']]*weight for s in route['segments']))
  departure=datetime.fromisoformat(departure_at) if departure_at else datetime.now(timezone.utc)
  outside=[FEATURES[i][0] for i,v in enumerate(features) if v<bundle.bounds[0,i] or v>bundle.bounds[1,i]]
- return {**route,'delay_hours':delay,'total_hours':total,'co2_kg':co2,
+ return {**route,'economics':economics(route,weight,delay,settings),'delay_hours':delay,'total_hours':total,'co2_kg':co2,
   'wind':round(wind,2),'wave':round(wave,2),'load':round(load,1),
   'interval':[round(max(0,delay-residual),1),round(delay+residual,1)],
   'baseline':{'delay_hours':base_delay,'total_hours':base_total,
@@ -108,7 +122,8 @@ def shipment_view(item,storm,port_load=None):
  routes=[route_view(r,item['weight'],storm,port_load,departure.isoformat()) for r in ROUTES]
  current=next(r for r in routes if r['id']==item['route_id'])
  with db() as c: declaration=c.execute('SELECT id,digest,created_at FROM customs WHERE shipment_id=?',(item['id'],)).fetchone()
- return {**item,'departed_at':departure.isoformat(),'route':current,'alternatives':routes,'customs':dict(declaration) if declaration else None}
+ decision=recommend(routes,item['route_id'],load_settings(db))
+ return {**item,'status':item.get('status','in_transit'),'recommendation':decision,'departed_at':departure.isoformat(),'route':current,'alternatives':routes,'customs':dict(declaration) if declaration else None}
 
 @app.get('/health')
 def health():return {'status':'ok','data':'synthetic'}
@@ -117,7 +132,7 @@ def model_info():return metrics
 @app.get('/dashboard')
 def dashboard(storm: int=Query(0,ge=0,le=100),port_load: int|None=Query(None,ge=30,le=99)):
  with db() as c: items=[json.loads(r[0]) for r in c.execute('SELECT data FROM shipments ORDER BY id')]; ports=[json.loads(r[0]) for r in c.execute('SELECT data FROM ports')]
- return {'shipments':[shipment_view(s,storm,port_load) for s in items],'ports':ports,'model':metrics,'storm':storm,'port_load':port_load,'data_source':'Синтетические демонстрационные данные','as_of':datetime.now(timezone.utc).isoformat()}
+ return {'shipments':[shipment_view(s,storm,port_load) for s in items],'ports':ports,'model':metrics,'settings':load_settings(db).model_dump(),'storm':storm,'port_load':port_load,'data_source':'Синтетические демонстрационные данные','as_of':datetime.now(timezone.utc).isoformat()}
 @app.get('/shipments/{shipment_id}')
 def shipment(shipment_id:str,storm:int=Query(0,ge=0,le=100),port_load:int|None=Query(None,ge=30,le=99)):
  with db() as c: row=c.execute('SELECT data FROM shipments WHERE id=?',(shipment_id,)).fetchone()
@@ -145,3 +160,36 @@ def customs(data:Declaration):
   id='DEMO-'+secrets.token_hex(5).upper()
   c.execute('INSERT INTO customs VALUES (?,?,?,?,?)',(id,data.shipment_id,payload,digest,datetime.now(timezone.utc).isoformat()))
  return {'id':id,'status':'Демо-проверка пройдена','digest':digest,'duplicate':False,'notice':'Не является таможенным оформлением'}
+
+
+register_admin(app,db,authorize)
+
+@app.get('/forecast')
+def forecast():
+ settings=load_settings(db)
+ weather=enrich_snapshot(weather_service.snapshot(),settings)
+ passages={r['id']:passage(r,weather,settings) for r in ROUTES}
+ with db() as c:
+  items=[json.loads(r[0]) for r in c.execute('SELECT data FROM shipments ORDER BY id')]
+  ports=[json.loads(r[0]) for r in c.execute('SELECT data FROM ports')]
+ shipments=[]
+ for item in items:
+  alternatives=[]
+  for r in ROUTES:
+   leg=passages[r['id']];delay=None;inputs=None;outside=[]
+   if leg['complete']:
+    inputs=[leg['wind'],leg['wave'],r['load'],r['history'],sum(s['km'] for s in r['segments']),r['transfers']]
+    delay=round(float(model.predict([inputs])[0]),1)
+    outside=[FEATURES[i][0] for i,v in enumerate(inputs) if v<bundle.bounds[0,i] or v>bundle.bounds[1,i]]
+   total=None if delay is None else round(r['hours']+delay,1)
+   co2=round(sum(s['km']*FACTORS[s['mode']]*item['weight'] for s in r['segments']))
+   alternatives.append({**r,'co2_kg':co2,'delay_hours':delay,'total_hours':total,
+    'eta_at':None if total is None else (datetime.fromisoformat(weather['starts_at'])+timedelta(hours=total)).isoformat(),
+    'prediction':{'source':'RandomForestRegressor.predict' if delay is not None else 'unavailable','model_version':metrics['version'],
+                  'inputs':None if inputs is None else dict(zip(metrics['features'],inputs)),'outside_training_range':outside},
+    'passage':leg,'economics':economics(r,item['weight'],delay,settings)})
+  decision=recommend(alternatives,item['route_id'],settings)
+  shipments.append({**item,'status':item.get('status','in_transit'),'alternatives':alternatives,'recommendation':decision})
+ return {'mode':'auto','weather':weather,'shipments':shipments,'ports':ports,'settings':settings.model_dump(),
+         'alerts':[a for leg in passages.values() for a in leg['alerts']],'model_version':metrics['version'],
+         'data_notice':'Погода — модельный прогноз Open-Meteo; грузы и геометрия демонстрационные. Новый план отправления в текущий час, без фактического перенаправления.'}

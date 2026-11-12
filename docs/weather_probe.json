@@ -1,0 +1,43 @@
+{
+  "source": "Open-Meteo",
+  "coverage": [
+    {
+      "id": "direct-north",
+      "wind_hours": 72,
+      "wave_hours": 72
+    },
+    {
+      "id": "direct-mid",
+      "wind_hours": 72,
+      "wave_hours": 72
+    },
+    {
+      "id": "direct-south",
+      "wind_hours": 72,
+      "wave_hours": 0
+    },
+    {
+      "id": "east-north",
+      "wind_hours": 72,
+      "wave_hours": 72
+    },
+    {
+      "id": "east-mid",
+      "wind_hours": 72,
+      "wave_hours": 72
+    },
+    {
+      "id": "east-south",
+      "wind_hours": 72,
+      "wave_hours": 72
+    },
+    {
+      "id": "west-land",
+      "wind_hours": 72,
+      "wave_hours": 0
+    }
+  ],
+  "errors": [],
+  "model_version": "dd6d5aa09398",
+  "fetched_at": "2026-11-12T14:09:03.842925+00:00"
+}
