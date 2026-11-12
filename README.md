@@ -100,3 +100,5 @@ API-key защищает взаимодействие сервисов. Адми
 План, архитектура и следующий этап: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 Восстановление морского прогноза прямого маршрута и выбор ячейки Open-Meteo: [MARINE_CELL_FIX.md](docs/MARINE_CELL_FIX.md).
+
+Публичная временная HTTPS-демонстрация: [адрес, проверки и скриншоты](docs/PUBLIC_VERIFICATION.md). Запуск, отдельная production-база/секреты и ограничения доступа через MacBook: [PUBLIC_DEPLOYMENT.md](docs/PUBLIC_DEPLOYMENT.md).

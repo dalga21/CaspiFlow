@@ -96,7 +96,7 @@ def wait_http(url, children, timeout=60):
             raise RuntimeError('A demo process exited; inspect private logs in .runtime/public-demo/')
         try:
             with urllib.request.urlopen(url, timeout=3) as r:
-                if r.status == 200:
+                if r.status == 200 and json.load(r).get("status") == "ok":
                     return
         except Exception:
             pass
@@ -145,6 +145,8 @@ def run():
     children.append(spawn(['node','node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port',str(FRONTEND_PORT)],source / 'frontend',env,'frontend'))
     wait_http(f'http://127.0.0.1:{FRONTEND_PORT}/api/health',children)
     children.append(spawn(['/usr/bin/caffeinate','-i','-w',str(os.getpid())],source,env,'awake'))
+    # The hostname can exist before the tunnel is connected (initial HTTP 530).
+    wait_http(origin + '/api/health', children, timeout=120)
     private_json(STATE / 'deployment.json', {'url':origin,'admin_url':origin+'/admin','sha':release['sha'],
         'database':str(STATE/'data/caspiflow.sqlite'),'source':str(source),'pid':os.getpid(),
         'started_at':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'hosting':'MacBook via Cloudflare Quick Tunnel'})
@@ -163,7 +165,7 @@ def start():
     p=subprocess.Popen([str(PYTHON),str(Path(__file__).resolve()),'run'],cwd=ROOT,
         stdin=subprocess.DEVNULL,stdout=log,stderr=log,start_new_session=True)
     log.close();pidfile.write_text(str(p.pid))
-    for _ in range(90):
+    for _ in range(180):
         if p.poll() is not None: raise SystemExit('Startup failed. See .runtime/public-demo/supervisor.log')
         path=STATE/'deployment.json'
         if path.exists() and json.loads(path.read_text()).get('pid')==p.pid:

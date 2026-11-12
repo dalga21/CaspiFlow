@@ -1,0 +1,455 @@
+{
+  "url": "https://antibodies-victorian-give-explorer.trycloudflare.com",
+  "checked_at": "2026-11-12T20:51:01.039943+00:00",
+  "release": "e7f8f750b38db62e7e7d565e0832f753b2b48129",
+  "responses": [
+    {
+      "path": "/",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/api/health",
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "path": "/api/model",
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "path": "/api/dashboard",
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "path": "/api/forecast",
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "path": "/admin",
+      "status": 307,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/api/admin/data",
+      "status": 401,
+      "content_type": "application/json"
+    },
+    {
+      "path": "/.env",
+      "status": 404,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/.runtime/public-demo/secrets.json",
+      "status": 404,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/backend/caspiflow.sqlite",
+      "status": 404,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/.git/config",
+      "status": 404,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/api/unknown",
+      "status": 404,
+      "content_type": "application/json"
+    }
+  ],
+  "weather": {
+    "fetched_at": "2026-11-12T20:50:21.147429+00:00",
+    "errors": [],
+    "points": [
+      {
+        "id": "direct-north",
+        "availability": {
+          "wind": {
+            "http_status": 200,
+            "field": "wind_speed_10m",
+            "expected_unit": "m/s",
+            "fetched_at": "2026-11-12T20:50:21.145270+00:00",
+            "cell_selection": "nearest",
+            "requested_coordinates": {
+              "latitude": 44.1,
+              "longitude": 48.4
+            },
+            "grid_coordinates": {
+              "latitude": 44.12547,
+              "longitude": 48.39222
+            },
+            "unit": "m/s",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          },
+          "wave": {
+            "http_status": 200,
+            "field": "wave_height",
+            "expected_unit": "m",
+            "fetched_at": "2026-11-12T20:50:21.115866+00:00",
+            "cell_selection": "sea",
+            "requested_coordinates": {
+              "latitude": 44.1,
+              "longitude": 48.4
+            },
+            "grid_coordinates": {
+              "latitude": 44.125,
+              "longitude": 48.375015
+            },
+            "unit": "m",
+            "grid_distance_km": 3.42,
+            "max_grid_distance_km": 25.0,
+            "spatial_note": "Прогноз морской ячейки 44.125, 48.375015 — 3.4 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          }
+        }
+      },
+      {
+        "id": "direct-mid",
+        "availability": {
+          "wind": {
+            "http_status": 200,
+            "field": "wind_speed_10m",
+            "expected_unit": "m/s",
+            "fetched_at": "2026-11-12T20:50:21.145270+00:00",
+            "cell_selection": "nearest",
+            "requested_coordinates": {
+              "latitude": 41.9,
+              "longitude": 48.8
+            },
+            "grid_coordinates": {
+              "latitude": 41.908363,
+              "longitude": 48.758766
+            },
+            "unit": "m/s",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          },
+          "wave": {
+            "http_status": 200,
+            "field": "wave_height",
+            "expected_unit": "m",
+            "fetched_at": "2026-11-12T20:50:21.115866+00:00",
+            "cell_selection": "sea",
+            "requested_coordinates": {
+              "latitude": 41.9,
+              "longitude": 48.8
+            },
+            "grid_coordinates": {
+              "latitude": 41.875,
+              "longitude": 48.79167
+            },
+            "unit": "m",
+            "grid_distance_km": 2.86,
+            "max_grid_distance_km": 25.0,
+            "spatial_note": "Прогноз морской ячейки 41.875, 48.79167 — 2.9 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          }
+        }
+      },
+      {
+        "id": "direct-south",
+        "availability": {
+          "wind": {
+            "http_status": 200,
+            "field": "wind_speed_10m",
+            "expected_unit": "m/s",
+            "fetched_at": "2026-11-12T20:50:21.145270+00:00",
+            "cell_selection": "nearest",
+            "requested_coordinates": {
+              "latitude": 39.7,
+              "longitude": 49.2
+            },
+            "grid_coordinates": {
+              "latitude": 39.69819,
+              "longitude": 49.193756
+            },
+            "unit": "m/s",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          },
+          "wave": {
+            "http_status": 200,
+            "field": "wave_height",
+            "expected_unit": "m",
+            "fetched_at": "2026-11-12T20:50:21.115866+00:00",
+            "cell_selection": "sea",
+            "requested_coordinates": {
+              "latitude": 39.7,
+              "longitude": 49.2
+            },
+            "grid_coordinates": {
+              "latitude": 39.625,
+              "longitude": 49.375015
+            },
+            "unit": "m",
+            "grid_distance_km": 17.15,
+            "max_grid_distance_km": 25.0,
+            "spatial_note": "Прогноз морской ячейки 39.625, 49.375015 — 17.1 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          }
+        }
+      },
+      {
+        "id": "east-north",
+        "availability": {
+          "wind": {
+            "http_status": 200,
+            "field": "wind_speed_10m",
+            "expected_unit": "m/s",
+            "fetched_at": "2026-11-12T20:50:21.145270+00:00",
+            "cell_selection": "nearest",
+            "requested_coordinates": {
+              "latitude": 42.5,
+              "longitude": 51.5
+            },
+            "grid_coordinates": {
+              "latitude": 42.507713,
+              "longitude": 51.489674
+            },
+            "unit": "m/s",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          },
+          "wave": {
+            "http_status": 200,
+            "field": "wave_height",
+            "expected_unit": "m",
+            "fetched_at": "2026-11-12T20:50:21.115866+00:00",
+            "cell_selection": "sea",
+            "requested_coordinates": {
+              "latitude": 42.5,
+              "longitude": 51.5
+            },
+            "grid_coordinates": {
+              "latitude": 42.541664,
+              "longitude": 51.458344
+            },
+            "unit": "m",
+            "grid_distance_km": 5.75,
+            "max_grid_distance_km": 25.0,
+            "spatial_note": "Прогноз морской ячейки 42.541664, 51.458344 — 5.8 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          }
+        }
+      },
+      {
+        "id": "east-mid",
+        "availability": {
+          "wind": {
+            "http_status": 200,
+            "field": "wind_speed_10m",
+            "expected_unit": "m/s",
+            "fetched_at": "2026-11-12T20:50:21.145270+00:00",
+            "cell_selection": "nearest",
+            "requested_coordinates": {
+              "latitude": 40.2,
+              "longitude": 52.2
+            },
+            "grid_coordinates": {
+              "latitude": 40.222153,
+              "longitude": 52.19229
+            },
+            "unit": "m/s",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          },
+          "wave": {
+            "http_status": 200,
+            "field": "wave_height",
+            "expected_unit": "m",
+            "fetched_at": "2026-11-12T20:50:21.115866+00:00",
+            "cell_selection": "sea",
+            "requested_coordinates": {
+              "latitude": 40.2,
+              "longitude": 52.2
+            },
+            "grid_coordinates": {
+              "latitude": 40.208336,
+              "longitude": 52.208344
+            },
+            "unit": "m",
+            "grid_distance_km": 1.17,
+            "max_grid_distance_km": 25.0,
+            "spatial_note": "Прогноз морской ячейки 40.208336, 52.208344 — 1.2 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          }
+        }
+      },
+      {
+        "id": "east-south",
+        "availability": {
+          "wind": {
+            "http_status": 200,
+            "field": "wind_speed_10m",
+            "expected_unit": "m/s",
+            "fetched_at": "2026-11-12T20:50:21.145270+00:00",
+            "cell_selection": "nearest",
+            "requested_coordinates": {
+              "latitude": 37.8,
+              "longitude": 53.0
+            },
+            "grid_coordinates": {
+              "latitude": 37.799835,
+              "longitude": 53.01196
+            },
+            "unit": "m/s",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          },
+          "wave": {
+            "http_status": 200,
+            "field": "wave_height",
+            "expected_unit": "m",
+            "fetched_at": "2026-11-12T20:50:21.115866+00:00",
+            "cell_selection": "sea",
+            "requested_coordinates": {
+              "latitude": 37.8,
+              "longitude": 53.0
+            },
+            "grid_coordinates": {
+              "latitude": 37.791664,
+              "longitude": 52.958344
+            },
+            "unit": "m",
+            "grid_distance_km": 3.78,
+            "max_grid_distance_km": 25.0,
+            "spatial_note": "Прогноз морской ячейки 37.791664, 52.958344 — 3.8 км от точки маршрута. Это пространственное приближение, не измерение в точке груза.",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          }
+        }
+      },
+      {
+        "id": "west-land",
+        "availability": {
+          "wind": {
+            "http_status": 200,
+            "field": "wind_speed_10m",
+            "expected_unit": "m/s",
+            "fetched_at": "2026-11-12T20:50:21.145270+00:00",
+            "cell_selection": "nearest",
+            "requested_coordinates": {
+              "latitude": 40.37,
+              "longitude": 49.85
+            },
+            "grid_coordinates": {
+              "latitude": 40.414165,
+              "longitude": 49.82638
+            },
+            "unit": "m/s",
+            "response_hours": 72,
+            "valid_response_hours": 72,
+            "provider_start": "2026-11-12T20:00:00+00:00",
+            "provider_end": "2026-11-15T19:00:00+00:00",
+            "status": "available",
+            "reason": "Доступны все 72 почасовых значения",
+            "available_hours": 72,
+            "requested_hours": 72
+          },
+          "wave": {
+            "status": "not_applicable",
+            "reason": "Сухопутная точка: морские волны не запрашиваются и не подставляются",
+            "available_hours": 0,
+            "requested_hours": 72
+          }
+        }
+      }
+    ]
+  },
+  "login_rate_limit": {
+    "responses": [
+      401,
+      401,
+      401,
+      401,
+      401,
+      429
+    ],
+    "only_test_attempts_removed": true
+  }
+}
