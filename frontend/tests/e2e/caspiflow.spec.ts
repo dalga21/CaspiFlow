@@ -150,7 +150,7 @@ test('customs validation, API failure, submission, receipt and persistence', asy
     await expect(page.getByRole('status')).toContainText(createdId!);
     await page.reload();
     await page.locator('.cargo-item').filter({hasText:shipment.id}).click();
-    await page.getByRole('button',{name:'Посмотреть'}).click();
+    await page.getByRole('button',{name:'Посмотреть',exact:true}).click();
     await expect(page.getByRole('dialog')).toContainText(createdId!);
     await expect(page.getByRole('dialog')).toContainText('SHA-256:');
     await page.screenshot({path:`../docs/screenshots/customs-${test.info().project.name}.png`,fullPage:false,scale:'css'});

@@ -90,13 +90,22 @@ key_header=APIKeyHeader(name='X-API-Key',auto_error=False)
 def authorize(key: str|None=Depends(key_header)):
  if not key or not secrets.compare_digest(key,os.environ['CUSTOMS_API_KEY']): raise HTTPException(401,'Invalid API key')
 
+def prediction_scope(route):
+ modes=list(dict.fromkeys(s['mode'] for s in route['segments']))
+ land='sea' not in modes
+ return {'transport_modes':modes,'validation_scope':'unvalidated_land' if land else 'synthetic_only',
+         'limitation':('Сухопутный прогноз отдельно не валидирован. Тип транспорта не входит в признаки модели; '
+                       'волны 0 означают отсутствие моря и выходят за диапазон обучения. Это ориентировочная оценка, не подтверждённый ETA.') if land else None}
+
 def route_view(route,weight,storm,port_load=None,departure_at=None):
  settings=load_settings(db)
- exposure=route['exposure']; wind=7+storm*.24*exposure; wave=.6+storm*.045*exposure
+ exposure=route['exposure']; wind=7+storm*.24*exposure
+ has_sea=any(s['mode']=='sea' for s in route['segments'])
+ wave=.6+storm*.045*exposure if has_sea else 0
  base_load=route['load'] if port_load is None else port_load
  load=min(99,base_load+storm*.15*exposure)
  features=[wind,wave,load,route['history'],sum(s['km'] for s in route['segments']),route['transfers']]
- baseline_features=[7,.6,base_load,*features[3:]]
+ baseline_features=[7,.6 if has_sea else 0,base_load,*features[3:]]
  # Both before and after come from the trained estimator, never a hand-written delay formula.
  predicted=model.predict([features,baseline_features])
  delay=round(float(predicted[0]),1); base_delay=round(float(predicted[1]),1)
@@ -114,7 +123,7 @@ def route_view(route,weight,storm,port_load=None,departure_at=None):
   'risk_level':'high' if storm*exposure>=60 else 'elevated' if storm*exposure>=25 else 'low',
   'hazard_legs':([['astrakhan','anzali']] if route['id']=='direct' else [['aktau','amirabad']] if route['id']=='east' else []) if storm*exposure>=25 else [],
   'prediction':{'model_version':metrics['version'],'source':'RandomForestRegressor.predict',
-                'inputs':dict(zip(metrics['features'],features)), 'outside_training_range':outside}}
+                'inputs':dict(zip(metrics['features'],features)), 'outside_training_range':outside,**prediction_scope(route)}}
 
 def shipment_view(item,storm,port_load=None):
  # Fixed snapshot anchor: storm changes ETA, not departure or stored cargo position.
@@ -186,7 +195,7 @@ def forecast(retry:bool=Query(False)):
    alternatives.append({**r,'co2_kg':co2,'delay_hours':delay,'total_hours':total,
     'eta_at':None if total is None else (datetime.fromisoformat(weather['starts_at'])+timedelta(hours=total)).isoformat(),
     'prediction':{'source':'RandomForestRegressor.predict' if delay is not None else 'unavailable','model_version':metrics['version'],
-                  'inputs':None if inputs is None else dict(zip(metrics['features'],inputs)),'outside_training_range':outside},
+                  'inputs':None if inputs is None else dict(zip(metrics['features'],inputs)),'outside_training_range':outside,**prediction_scope(r)},
     'passage':leg,'economics':economics(r,item['weight'],delay,settings)})
   decision=recommend(alternatives,item['route_id'],settings)
   shipments.append({**item,'status':item.get('status','in_transit'),'alternatives':alternatives,'recommendation':decision})

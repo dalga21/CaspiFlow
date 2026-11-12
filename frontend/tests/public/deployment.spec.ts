@@ -91,7 +91,7 @@ test('public customs validates, saves and reloads a labelled demonstration decla
   expect(saved.notice).toContain('Не является таможенным оформлением');
   await expect(dialog).not.toBeVisible();await page.reload();
   await page.locator('.cargo-item').filter({hasText:shipment.id}).click();
-  await page.getByRole('button',{name:'Посмотреть'}).click();
+  await page.getByRole('button',{name:'Посмотреть',exact:true}).click();
   await expect(page.getByRole('dialog')).toContainText(id!);
   await expect(page.getByRole('dialog')).toContainText('SHA-256:');
   await page.screenshot({path:`../docs/screenshots/public-customs-${test.info().project.name}.png`,scale:'css'});

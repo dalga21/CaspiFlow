@@ -70,7 +70,9 @@ def recommend(routes,current_id,settings):
     best=min(scored,key=lambda r:(r['score'],r['route_id']))
     partial=len(valid)!=len(routes)
     outside=any(r.get('prediction',{}).get('outside_training_range') for r in valid)
-    return {'route_id':best['route_id'],'conditional':partial or outside,'weights':weights,'scores':scored,
+    land_unvalidated=any(r.get('prediction',{}).get('validation_scope')=='unvalidated_land' for r in valid)
+    return {'route_id':best['route_id'],'conditional':partial or outside or land_unvalidated,'weights':weights,'scores':scored,
             'excluded_routes':[r['id'] for r in routes if r['delay_hours'] is None],
             'reason':('Условный выбор: часть маршрутов без полного прогноза. ' if partial else '')+('Есть признаки вне диапазона обучения; надёжность сравнения не подтверждена. ' if outside else '')+
+                     ('Сухопутный прогноз отдельно не валидирован. ' if land_unvalidated else '')+
                      'Минимум взвешенного нормированного времени, стоимости и CO₂ среди доступных вариантов. Меньший балл лучше; тарифы демонстрационные.'}

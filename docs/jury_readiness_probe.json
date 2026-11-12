@@ -1,0 +1,291 @@
+{
+  "date": "2026-11-13",
+  "local_url": "http://127.0.0.1:3000",
+  "public_url": "https://hewlett-numbers-minor-set.trycloudflare.com",
+  "public_health": 200,
+  "public_restarted": false,
+  "model_version": "dd6d5aa09398",
+  "manual_storm_100": {
+    "shipment_id": "CF-2026-0841",
+    "recommendation": {
+      "route_id": "west",
+      "conditional": true,
+      "weights": {
+        "eta": 0.45,
+        "cost": 0.4,
+        "co2": 0.15
+      },
+      "scores": [
+        {
+          "route_id": "direct",
+          "score": 0.569481,
+          "normalized": {
+            "eta": 0.3766233766233766,
+            "cost": 1.0,
+            "co2": 0.0
+          }
+        },
+        {
+          "route_id": "west",
+          "score": 0.15,
+          "normalized": {
+            "eta": 0.0,
+            "cost": 0.0,
+            "co2": 1.0
+          }
+        },
+        {
+          "route_id": "east",
+          "score": 0.755933,
+          "normalized": {
+            "eta": 1.0,
+            "cost": 0.6017399373622547,
+            "co2": 0.4349112426035503
+          }
+        }
+      ],
+      "excluded_routes": [],
+      "reason": "Есть признаки вне диапазона обучения; надёжность сравнения не подтверждена. Сухопутный прогноз отдельно не валидирован. Минимум взвешенного нормированного времени, стоимости и CO₂ среди доступных вариантов. Меньший балл лучше; тарифы демонстрационные."
+    },
+    "routes": [
+      {
+        "id": "direct",
+        "name": "Прямой каспийский",
+        "ports": [
+          "astrakhan",
+          "anzali"
+        ],
+        "segments": [
+          {
+            "mode": "rail",
+            "km": 280
+          },
+          {
+            "mode": "sea",
+            "km": 1060
+          },
+          {
+            "mode": "road",
+            "km": 45
+          }
+        ],
+        "hours": 58,
+        "transfers": 2,
+        "load": 87.0,
+        "history": 8,
+        "exposure": 1,
+        "economics": {
+          "currency": "USD",
+          "tariffs_demonstration": true,
+          "transport_usd": 1008.08,
+          "delay_cost_usd": 6525.0,
+          "total_cost_usd": 7533.08,
+          "additional_transport_usd": 0.0,
+          "potential_savings_usd": 0.0
+        },
+        "delay_hours": 43.5,
+        "total_hours": 101.5,
+        "co2_kg": 668,
+        "wind": 31.0,
+        "wave": 5.1,
+        "interval": [
+          37.8,
+          49.2
+        ],
+        "baseline": {
+          "delay_hours": 19.8,
+          "total_hours": 77.8,
+          "eta_at": "2026-11-14T13:34:08.366231+00:00"
+        },
+        "delay_change_hours": 23.7,
+        "eta_at": "2026-11-15T13:16:08.366231+00:00",
+        "risk_level": "high",
+        "hazard_legs": [
+          [
+            "astrakhan",
+            "anzali"
+          ]
+        ],
+        "prediction": {
+          "model_version": "dd6d5aa09398",
+          "source": "RandomForestRegressor.predict",
+          "inputs": {
+            "wind_m_s": 31.0,
+            "wave_m": 5.1,
+            "port_load_percent": 87.0,
+            "historical_delay_hours": 8,
+            "distance_km": 1385,
+            "transfers": 2
+          },
+          "outside_training_range": [],
+          "transport_modes": [
+            "rail",
+            "sea",
+            "road"
+          ],
+          "validation_scope": "synthetic_only",
+          "limitation": null
+        }
+      },
+      {
+        "id": "west",
+        "name": "Западный сухопутный",
+        "ports": [
+          "astrakhan",
+          "makhachkala",
+          "baku",
+          "anzali"
+        ],
+        "segments": [
+          {
+            "mode": "rail",
+            "km": 690
+          },
+          {
+            "mode": "road",
+            "km": 940
+          }
+        ],
+        "hours": 72,
+        "transfers": 3,
+        "load": 82.2,
+        "history": 11,
+        "exposure": 0.08,
+        "economics": {
+          "currency": "USD",
+          "tariffs_demonstration": true,
+          "transport_usd": 2688.88,
+          "delay_cost_usd": 3120.0,
+          "total_cost_usd": 5808.88,
+          "additional_transport_usd": 1680.8,
+          "potential_savings_usd": 1724.2
+        },
+        "delay_hours": 20.8,
+        "total_hours": 92.8,
+        "co2_kg": 2358,
+        "wind": 8.92,
+        "wave": 0,
+        "interval": [
+          15.1,
+          26.5
+        ],
+        "baseline": {
+          "delay_hours": 20.7,
+          "total_hours": 92.7,
+          "eta_at": "2026-11-15T04:28:08.366231+00:00"
+        },
+        "delay_change_hours": 0.1,
+        "eta_at": "2026-11-15T04:34:08.366231+00:00",
+        "risk_level": "low",
+        "hazard_legs": [],
+        "prediction": {
+          "model_version": "dd6d5aa09398",
+          "source": "RandomForestRegressor.predict",
+          "inputs": {
+            "wind_m_s": 8.92,
+            "wave_m": 0,
+            "port_load_percent": 82.2,
+            "historical_delay_hours": 11,
+            "distance_km": 1630,
+            "transfers": 3
+          },
+          "outside_training_range": [
+            "wave_m"
+          ],
+          "transport_modes": [
+            "rail",
+            "road"
+          ],
+          "validation_scope": "unvalidated_land",
+          "limitation": "Сухопутный прогноз отдельно не валидирован. Тип транспорта не входит в признаки модели; волны 0 означают отсутствие моря и выходят за диапазон обучения. Это ориентировочная оценка, не подтверждённый ETA."
+        }
+      },
+      {
+        "id": "east",
+        "name": "Через Актау и Амирабад",
+        "ports": [
+          "astrakhan",
+          "aktau",
+          "amirabad",
+          "anzali"
+        ],
+        "segments": [
+          {
+            "mode": "rail",
+            "km": 720
+          },
+          {
+            "mode": "sea",
+            "km": 900
+          },
+          {
+            "mode": "road",
+            "km": 310
+          }
+        ],
+        "hours": 83,
+        "transfers": 3,
+        "load": 74.5,
+        "history": 7,
+        "exposure": 0.7,
+        "economics": {
+          "currency": "USD",
+          "tariffs_demonstration": true,
+          "transport_usd": 1911.4,
+          "delay_cost_usd": 4935.0,
+          "total_cost_usd": 6846.4,
+          "additional_transport_usd": 903.32,
+          "potential_savings_usd": 686.68
+        },
+        "delay_hours": 32.9,
+        "total_hours": 115.9,
+        "co2_kg": 1403,
+        "wind": 23.8,
+        "wave": 3.75,
+        "interval": [
+          27.2,
+          38.6
+        ],
+        "baseline": {
+          "delay_hours": 16.6,
+          "total_hours": 99.6,
+          "eta_at": "2026-11-15T11:22:08.366231+00:00"
+        },
+        "delay_change_hours": 16.3,
+        "eta_at": "2026-11-16T03:40:08.366231+00:00",
+        "risk_level": "high",
+        "hazard_legs": [
+          [
+            "aktau",
+            "amirabad"
+          ]
+        ],
+        "prediction": {
+          "model_version": "dd6d5aa09398",
+          "source": "RandomForestRegressor.predict",
+          "inputs": {
+            "wind_m_s": 23.799999999999997,
+            "wave_m": 3.75,
+            "port_load_percent": 74.5,
+            "historical_delay_hours": 7,
+            "distance_km": 1930,
+            "transfers": 3
+          },
+          "outside_training_range": [],
+          "transport_modes": [
+            "rail",
+            "sea",
+            "road"
+          ],
+          "validation_scope": "synthetic_only",
+          "limitation": null
+        }
+      }
+    ],
+    "delta_west_vs_direct": {
+      "hours": -8.7,
+      "cost_usd": -1724.2,
+      "co2_kg": 1690
+    }
+  }
+}
