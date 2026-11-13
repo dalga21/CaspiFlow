@@ -12,3 +12,6 @@ frontend/*.tsbuildinfo
 
 .DS_Store
 .env.*
+
+output/pdf/
+tmp/pdfs/

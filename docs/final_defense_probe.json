@@ -1,0 +1,193 @@
+{
+  "date": "2026-11-13",
+  "checkpoint": "b4834d1",
+  "local_url": "http://127.0.0.1:3000",
+  "public": {
+    "checked_at": "2026-11-13T00:19:26.047Z",
+    "url": "https://hewlett-numbers-minor-set.trycloudflare.com",
+    "release": "27086d05c3a89e5c728d0ebfe75e884f678c2a2c",
+    "unchanged_pid": 44524,
+    "page_status": 200,
+    "health": 200,
+    "unauthorized_admin": 401,
+    "auto_graphs": 3,
+    "page_errors": [],
+    "mobile_overflow": false,
+    "new_release_published": false
+  },
+  "checks": {
+    "backend": "44 passed (20.30s)",
+    "playwright": "58 passed (1.6m)",
+    "build": "PASS",
+    "typescript": "PASS",
+    "pdf_visual": "manual and automatic, two pages each, all pages inspected"
+  },
+  "model_version": "dd6d5aa09398",
+  "model_metrics_unchanged": true,
+  "scenarios": [
+    {
+      "storm": 0,
+      "shipment_id": "CF-2026-0841",
+      "snapshot": "619ac551a1930ab72fc5d6686f7563ce11bbbc224ed66a17295991a36274d08d",
+      "weights": {
+        "eta": 0.45,
+        "cost": 0.4,
+        "co2": 0.15
+      },
+      "recommendation": {
+        "route_id": "direct",
+        "conditional": true,
+        "weights": {
+          "eta": 0.45,
+          "cost": 0.4,
+          "co2": 0.15
+        },
+        "scores": [
+          {
+            "route_id": "direct",
+            "score": 0.0,
+            "normalized": {
+              "eta": 0.0,
+              "cost": 0.0,
+              "co2": 0.0
+            }
+          },
+          {
+            "route_id": "west",
+            "score": 0.857569,
+            "normalized": {
+              "eta": 0.6834862385321104,
+              "cost": 1.0,
+              "co2": 1.0
+            }
+          },
+          {
+            "route_id": "east",
+            "score": 0.608489,
+            "normalized": {
+              "eta": 1.0,
+              "cost": 0.23313140213679903,
+              "co2": 0.4349112426035503
+            }
+          }
+        ],
+        "excluded_routes": [],
+        "reason": "Есть признаки вне диапазона обучения; надёжность сравнения не подтверждена. Сухопутный прогноз отдельно не валидирован. Минимум взвешенного нормированного времени, стоимости и CO₂ среди доступных вариантов. Меньший балл лучше; тарифы демонстрационные."
+      },
+      "routes": [
+        {
+          "id": "direct",
+          "plan": 58,
+          "delay": 19.8,
+          "total": 77.8,
+          "eta": "2026-11-14T13:34:08.366231+00:00",
+          "cost_usd": 3978.08,
+          "co2_kg": 668,
+          "scope": "synthetic_only"
+        },
+        {
+          "id": "west",
+          "plan": 72,
+          "delay": 20.7,
+          "total": 92.7,
+          "eta": "2026-11-15T04:28:08.366231+00:00",
+          "cost_usd": 5793.88,
+          "co2_kg": 2358,
+          "scope": "unvalidated_land"
+        },
+        {
+          "id": "east",
+          "plan": 83,
+          "delay": 16.6,
+          "total": 99.6,
+          "eta": "2026-11-15T11:22:08.366231+00:00",
+          "cost_usd": 4401.4,
+          "co2_kg": 1403,
+          "scope": "synthetic_only"
+        }
+      ]
+    },
+    {
+      "storm": 100,
+      "shipment_id": "CF-2026-0841",
+      "snapshot": "c6750d471b108813e6fddb93a80925c32b22a17f2780aa5b4aa48ea21372da2d",
+      "weights": {
+        "eta": 0.45,
+        "cost": 0.4,
+        "co2": 0.15
+      },
+      "recommendation": {
+        "route_id": "west",
+        "conditional": true,
+        "weights": {
+          "eta": 0.45,
+          "cost": 0.4,
+          "co2": 0.15
+        },
+        "scores": [
+          {
+            "route_id": "direct",
+            "score": 0.569481,
+            "normalized": {
+              "eta": 0.3766233766233766,
+              "cost": 1.0,
+              "co2": 0.0
+            }
+          },
+          {
+            "route_id": "west",
+            "score": 0.15,
+            "normalized": {
+              "eta": 0.0,
+              "cost": 0.0,
+              "co2": 1.0
+            }
+          },
+          {
+            "route_id": "east",
+            "score": 0.755933,
+            "normalized": {
+              "eta": 1.0,
+              "cost": 0.6017399373622547,
+              "co2": 0.4349112426035503
+            }
+          }
+        ],
+        "excluded_routes": [],
+        "reason": "Есть признаки вне диапазона обучения; надёжность сравнения не подтверждена. Сухопутный прогноз отдельно не валидирован. Минимум взвешенного нормированного времени, стоимости и CO₂ среди доступных вариантов. Меньший балл лучше; тарифы демонстрационные."
+      },
+      "routes": [
+        {
+          "id": "direct",
+          "plan": 58,
+          "delay": 43.5,
+          "total": 101.5,
+          "eta": "2026-11-15T13:16:08.366231+00:00",
+          "cost_usd": 7533.08,
+          "co2_kg": 668,
+          "scope": "synthetic_only"
+        },
+        {
+          "id": "west",
+          "plan": 72,
+          "delay": 20.8,
+          "total": 92.8,
+          "eta": "2026-11-15T04:34:08.366231+00:00",
+          "cost_usd": 5808.88,
+          "co2_kg": 2358,
+          "scope": "unvalidated_land"
+        },
+        {
+          "id": "east",
+          "plan": 83,
+          "delay": 32.9,
+          "total": 115.9,
+          "eta": "2026-11-16T03:40:08.366231+00:00",
+          "cost_usd": 6846.4,
+          "co2_kg": 1403,
+          "scope": "synthetic_only"
+        }
+      ]
+    }
+  ]
+}

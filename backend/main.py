@@ -6,17 +6,20 @@ import sqlite3
 from contextlib import asynccontextmanager, contextmanager
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Literal
 
 import numpy as np
 from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.security import APIKeyHeader
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.responses import Response
 from pydantic import BaseModel, Field, ConfigDict
 from backend.ml import FEATURES, fit_model
-from backend.settings import initialize_settings,load_settings,economics,recommend
+from backend.settings import Settings,initialize_settings,load_settings,economics,recommend
 from backend.weather import WeatherService,enrich_snapshot,passage
 from backend.admin import register_admin
+from backend.reports import snapshot_id,render_report
 
 ROOT = Path(__file__).resolve().parent
 DB = Path(os.environ.get('CASPIFLOW_DB_PATH', str(ROOT / 'caspiflow.sqlite'))).resolve()
@@ -97,8 +100,8 @@ def prediction_scope(route):
          'limitation':('Сухопутный прогноз отдельно не валидирован. Тип транспорта не входит в признаки модели; '
                        'волны 0 означают отсутствие моря и выходят за диапазон обучения. Это ориентировочная оценка, не подтверждённый ETA.') if land else None}
 
-def route_view(route,weight,storm,port_load=None,departure_at=None):
- settings=load_settings(db)
+def route_view(route,weight,storm,port_load=None,departure_at=None,settings=None):
+ if settings is None:settings=load_settings(db)
  exposure=route['exposure']; wind=7+storm*.24*exposure
  has_sea=any(s['mode']=='sea' for s in route['segments'])
  wave=.6+storm*.045*exposure if has_sea else 0
@@ -125,14 +128,26 @@ def route_view(route,weight,storm,port_load=None,departure_at=None):
   'prediction':{'model_version':metrics['version'],'source':'RandomForestRegressor.predict',
                 'inputs':dict(zip(metrics['features'],features)), 'outside_training_range':outside,**prediction_scope(route)}}
 
-def shipment_view(item,storm,port_load=None):
+def manual_context(storm,port_load,settings):
+ return {'mode':'manual','storm':storm,'port_load':port_load,'settings':settings.model_dump(),
+         'model_version':metrics['version'],'emission_factors':FACTORS}
+
+def auto_context(weather,settings):
+ return {'mode':'auto','settings':settings.model_dump(),'model_version':metrics['version'],'emission_factors':FACTORS,
+         'weather':{'starts_at':weather['starts_at'],'fetched_at':weather['fetched_at'],'errors':weather['errors'],
+                    'spatial_notes':[p['name']+': '+p['availability']['wave']['spatial_note'] for p in weather['points'] if p.get('availability',{}).get('wave',{}).get('spatial_note')]}}
+
+def shipment_view(item,storm,port_load=None,settings=None):
+ if settings is None:settings=load_settings(db)
  # Fixed snapshot anchor: storm changes ETA, not departure or stored cargo position.
  departure=datetime.fromisoformat(item['updated_at'])-timedelta(hours=next(r for r in ROUTES if r['id']==item['route_id'])['hours']*item['progress'])
- routes=[route_view(r,item['weight'],storm,port_load,departure.isoformat()) for r in ROUTES]
+ routes=[route_view(r,item['weight'],storm,port_load,departure.isoformat(),settings=settings) for r in ROUTES]
  current=next(r for r in routes if r['id']==item['route_id'])
  with db() as c: declaration=c.execute('SELECT id,digest,created_at FROM customs WHERE shipment_id=?',(item['id'],)).fetchone()
- decision=recommend(routes,item['route_id'],load_settings(db))
- return {**item,'status':item.get('status','in_transit'),'recommendation':decision,'departed_at':departure.isoformat(),'route':current,'alternatives':routes,'customs':dict(declaration) if declaration else None}
+ decision=recommend(routes,item['route_id'],settings)
+ result={**item,'status':item.get('status','in_transit'),'recommendation':decision,'departed_at':departure.isoformat(),'route':current,'alternatives':routes,'customs':dict(declaration) if declaration else None}
+ result['report_snapshot']=snapshot_id(result,manual_context(storm,port_load,settings))
+ return result
 
 @app.get('/health')
 def health():return {'status':'ok','data':'synthetic'}
@@ -140,8 +155,9 @@ def health():return {'status':'ok','data':'synthetic'}
 def model_info():return metrics
 @app.get('/dashboard')
 def dashboard(storm: int=Query(0,ge=0,le=100),port_load: int|None=Query(None,ge=30,le=99)):
+ settings=load_settings(db)
  with db() as c: items=[json.loads(r[0]) for r in c.execute('SELECT data FROM shipments ORDER BY id')]; ports=[json.loads(r[0]) for r in c.execute('SELECT data FROM ports')]
- return {'shipments':[shipment_view(s,storm,port_load) for s in items],'ports':ports,'model':metrics,'settings':load_settings(db).model_dump(),'storm':storm,'port_load':port_load,'data_source':'Синтетические демонстрационные данные','as_of':datetime.now(timezone.utc).isoformat()}
+ return {'shipments':[shipment_view(s,storm,port_load,settings=settings) for s in items],'ports':ports,'model':metrics,'settings':settings.model_dump(),'storm':storm,'port_load':port_load,'data_source':'Синтетические демонстрационные данные','as_of':datetime.now(timezone.utc).isoformat()}
 @app.get('/shipments/{shipment_id}')
 def shipment(shipment_id:str,storm:int=Query(0,ge=0,le=100),port_load:int|None=Query(None,ge=30,le=99)):
  with db() as c: row=c.execute('SELECT data FROM shipments WHERE id=?',(shipment_id,)).fetchone()
@@ -198,7 +214,28 @@ def forecast(retry:bool=Query(False)):
                   'inputs':None if inputs is None else dict(zip(metrics['features'],inputs)),'outside_training_range':outside,**prediction_scope(r)},
     'passage':leg,'economics':economics(r,item['weight'],delay,settings)})
   decision=recommend(alternatives,item['route_id'],settings)
-  shipments.append({**item,'status':item.get('status','in_transit'),'alternatives':alternatives,'recommendation':decision})
+  shipment={**item,'status':item.get('status','in_transit'),'alternatives':alternatives,'recommendation':decision}
+  shipment['report_snapshot']=snapshot_id(shipment,auto_context(weather,settings))
+  shipments.append(shipment)
  return {'mode':'auto','weather':weather,'shipments':shipments,'ports':ports,'settings':settings.model_dump(),
          'alerts':[a for leg in passages.values() for a in leg['alerts']],'model_version':metrics['version'],
          'data_notice':'Погода — модельный прогноз Open-Meteo; грузы и геометрия демонстрационные. Новый план отправления в текущий час, без фактического перенаправления.'}
+
+@app.get('/reports/{shipment_id}',dependencies=[Depends(authorize)])
+def report(shipment_id:str,mode:Literal['manual','auto']=Query('manual'),storm:int=Query(0,ge=0,le=100),
+           port_load:int|None=Query(None,ge=30,le=99),expected_snapshot:str=Query(pattern=r'^[a-f0-9]{64}$')):
+ if mode=='auto':
+  if storm or port_load is not None:raise HTTPException(422,'Ручные параметры неприменимы к автопрогнозу')
+  data=forecast(retry=False);shipment=next((s for s in data['shipments'] if s['id']==shipment_id),None)
+  if shipment is None:raise HTTPException(404,'Груз не найден')
+  context=auto_context(data['weather'],Settings.model_validate(data['settings']))
+ else:
+  with db() as c:row=c.execute('SELECT data FROM shipments WHERE id=?',(shipment_id,)).fetchone()
+  if not row:raise HTTPException(404,'Груз не найден')
+  settings=load_settings(db);shipment=shipment_view(json.loads(row[0]),storm,port_load,settings=settings)
+  context=manual_context(storm,port_load,settings)
+ if shipment['report_snapshot']!=expected_snapshot or snapshot_id(shipment,context)!=expected_snapshot:
+  raise HTTPException(409,'Данные расчёта изменились. Обновите расчёт и сформируйте отчёт повторно.')
+ pdf=render_report(shipment,context,metrics)
+ return Response(pdf,media_type='application/pdf',headers={'Content-Disposition':f'attachment; filename="CaspiFlow-{shipment_id}-{mode}.pdf"',
+     'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'})

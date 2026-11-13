@@ -51,7 +51,8 @@ test('auto action appears before weather charts and handles missing current and 
  target.recommendation={route_id:null,conditional:true,reason:'Нет данных',scores:[]};
  await page.getByRole('button',{name:'Обновить прогноз',exact:true}).click();
  await expect(card).toContainText('Недостаточно данных для рекомендации');
- await expect(card.getByRole('button')).toHaveCount(0);
+ await expect(card.getByRole('button',{name:'Посмотреть расчёт',exact:true})).toHaveCount(0);
+ await expect(card.getByRole('button',{name:'Сформировать отчёт',exact:true})).toBeVisible();
  await expect(card).not.toContainText(/NaN|Infinity/);
 });
 
