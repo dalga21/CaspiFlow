@@ -1,0 +1,42 @@
+{
+  "url": "https://history-everybody-rings-brands.trycloudflare.com",
+  "release": "6e67a360bfae9529591d027d6432e7ac0830feb7",
+  "checked_at": "2026-11-13T00:39:41.521Z",
+  "checks": [
+    {
+      "device": "desktop",
+      "status": 200,
+      "jury_mode_absent": true,
+      "decision_card": true,
+      "manual_pdf": true,
+      "auto_pdf": true,
+      "selected_auto_cargo": "CF-2026-0842",
+      "land_scope": "unvalidated_land",
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "device": "mobile",
+      "status": 200,
+      "jury_mode_absent": true,
+      "decision_card": true,
+      "manual_pdf": true,
+      "auto_pdf": true,
+      "selected_auto_cargo": "CF-2026-0842",
+      "land_scope": "unvalidated_land",
+      "errors": [],
+      "overflow": false
+    }
+  ],
+  "data_preserved": true,
+  "credentials_preserved": true,
+  "secret_scan": "PASS",
+  "http_statuses": {
+    "/": 200,
+    "/api/health": 200,
+    "/api/admin/data": 401,
+    "/.env": 404,
+    "/.runtime/public-demo/secrets.json": 404,
+    "/backend/caspiflow.sqlite": 404
+  }
+}
