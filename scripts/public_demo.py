@@ -180,6 +180,12 @@ def status():
     d=STATE/'deployment.json'
     if d.exists():
         data=json.loads(d.read_text());print('URL:',data['url']);print('Admin:',data['admin_url'])
+        try:
+            response=httpx.get(data['url']+'/api/health',timeout=5,follow_redirects=False)
+            healthy=response.status_code==200 and response.json().get('status')=='ok'
+            print('Public HTTPS:', 'available (HTTP 200, health ok)' if healthy else 'unavailable (HTTP '+str(response.status_code)+')')
+        except (httpx.HTTPError,ValueError,AttributeError):
+            print('Public HTTPS: unavailable (connection, DNS, TLS or invalid health response)')
     print('Private admin password file: .runtime/public-demo/admin-password.txt (never paste into chat)')
 
 
