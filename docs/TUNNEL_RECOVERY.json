@@ -1,0 +1,31 @@
+{
+  "url": "https://evolution-pace-dana-butterfly.trycloudflare.com",
+  "release": "a887c054219581210cd32f1c5755d917a8e4dfc3",
+  "checked_at": "2026-11-13T06:03:02.732275+00:00",
+  "old_url": "https://history-everybody-rings-brands.trycloudflare.com",
+  "observed_failure": {
+    "tunnel_log": "Unauthorized: Tunnel not found",
+    "public_dns": "hostname not resolved",
+    "local_health": 200
+  },
+  "checks": [
+    {
+      "time": "2026-11-13T06:02:48.879736+00:00",
+      "page_status": 200,
+      "health_status": 200
+    },
+    {
+      "time": "2026-11-13T06:02:55.219564+00:00",
+      "page_status": 200,
+      "health_status": 200
+    },
+    {
+      "time": "2026-11-13T06:03:01.213180+00:00",
+      "page_status": 200,
+      "health_status": 200
+    }
+  ],
+  "manual_pdf_status": 200,
+  "local_application_changed": false,
+  "status_command_now_checks_public_health": true
+}

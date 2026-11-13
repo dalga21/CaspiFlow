@@ -65,7 +65,7 @@
 
 ## Удалённая проверка перед выступлением
 
-Публичная временная ссылка, проверенная через Chromium: https://history-everybody-rings-brands.trycloudflare.com. Админка — `/admin`; новый пароль только в локальном `.runtime/public-demo/admin-password.txt`, не на слайдах и не в чате. Перед демонстрацией проверить `/api/health`; Mac должен работать с открытой крышкой и интернетом. При перезапуске туннеля взять новый адрес из `scripts/public_demo.py status`. Публичная база отдельная и содержит синтетические грузы; не вводить личные сведения в демо-заявки. Результаты — [PUBLIC_VERIFICATION.md](PUBLIC_VERIFICATION.md).
+Публичная временная ссылка, проверенная через Chromium: https://evolution-pace-dana-butterfly.trycloudflare.com. Админка — `/admin`; новый пароль только в локальном `.runtime/public-demo/admin-password.txt`, не на слайдах и не в чате. Перед демонстрацией проверить `/api/health`; Mac должен работать с открытой крышкой и интернетом. При перезапуске туннеля взять новый адрес из `scripts/public_demo.py status`. Публичная база отдельная и содержит синтетические грузы; не вводить личные сведения в демо-заявки. Результаты — [PUBLIC_VERIFICATION.md](PUBLIC_VERIFICATION.md).
 
 Текущая версия с карточкой решения и PDF опубликована. Для удалённого показа использовать актуальную ссылку из [PUBLIC_CURRENT.md](PUBLIC_CURRENT.md); локальная production-версия остаётся резервом.
 
